@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="600dp"
+    android:minHeight="350dp"
+    android:background="#cfcfcf">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10.0dip"
+            android:text="@string/table"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20.0dip" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/backButton"
+            android:layout_width="50.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_borderWidth="0.0dip"
+            fancy:fb_fontIconResource=""
+            fancy:fb_fontIconSize="36.0dip"
+            fancy:fb_ghost="true"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text=""
+            fancy:fb_textColor="#ffffffff"
+            fancy:fb_textSize="25.0sp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/table_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="70dp"/>
+
+</LinearLayout>

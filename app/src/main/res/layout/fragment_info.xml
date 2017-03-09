@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/purple">
+
+    <RelativeLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/backButton"
+            android:layout_width="50.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_borderWidth="0.0dip"
+            fancy:fb_fontIconResource=""
+            fancy:fb_fontIconSize="36.0dip"
+            fancy:fb_ghost="true"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text=""
+            fancy:fb_textColor="#ffffffff"
+            fancy:fb_textSize="25.0sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="524.0dip"
+            android:layout_height="80.0dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20.0dip"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bottom_logo" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@+id/imageView"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:layout_marginTop="10.0dip"
+            android:text="@string/information"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoLayout"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/zearo_white"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtLoggedUser"
+        android:layout_below="@+id/layAddress"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"/>
+
+</RelativeLayout>

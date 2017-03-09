@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#ffd6c9d0"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="170.0dip"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pleaseEnterNoOfCovers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:layout_marginTop="10.0dip"
+            android:text="@string/enter_covers"
+            android:textColor="#ff4f0a2d"
+            android:textSize="15.0dip" />
+
+        <EditText
+            android:id="@+id/edtCoverNo"
+            android:layout_width="250.0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10.0dip"
+            android:inputType="number"
+            android:textCursorDrawable="@null" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="60.0dip"
+            android:layout_margin="10.0dip"
+            fancy:fb_borderWidth="2.0dip"
+            fancy:fb_borderColor="@color/purplelight"
+            fancy:fb_textColor="@color/purplelight"
+            fancy:fb_ghost="true"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text="@string/submit"
+            fancy:fb_textSize="16.0sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_CategoryItems">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0" />
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/category_btn"
+            android:layout_width="230.0dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/purplelight"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:padding="10.0dip"
+            android:text=""
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18.0sp" />
+
+        <ImageButton
+            android:id="@+id/updownButton"
+            android:layout_width="20.0dip"
+            android:layout_height="10.0dip"
+            android:layout_marginLeft="198.0dip"
+            android:layout_marginTop="20.0dip"
+            android:background="@drawable/down_arrow" />
+
+        <Button
+            android:id="@+id/feedback_btn"
+            android:layout_width="200.0dip"
+            android:layout_height="45.0dip"
+            android:layout_alignParentRight="true"
+            android:background="@color/purplelight"
+            android:gravity="center"
+            android:padding="10.0dip"
+            android:text="@string/feedback"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18.0sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/horizontal_recycler_view"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/feedback_btn"
+            android:scrollbars="none"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/back_button"
+            android:layout_width="120.0dip"
+            android:layout_height="51.0dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginTop="20.0dip"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_defaultColor="@color/purplelight"
+            fancy:fb_borderWidth="2.0dip"
+            fancy:fb_fontIconResource=""
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text="@string/back"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            fancy:fb_textColor="#ffffffff"
+            fancy:fb_textSize="19.0sp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/cart_button"
+            android:layout_width="120.0dip"
+            android:layout_height="51.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20.0dip"
+            android:layout_marginTop="20.0dip"
+            android:visibility="visible"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_defaultColor="@color/purplelight"
+            fancy:fb_borderWidth="2.0dip"
+            fancy:fb_fontIconResource=""
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text="@string/cart"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            fancy:fb_textSize="19.0sp" />
+
+        <TextView
+            android:id="@+id/cart_number"
+            android:layout_width="30.0dip"
+            android:layout_height="30.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_margin="1.0dip"
+            android:background="@drawable/round_edge_red_bg"
+            android:gravity="center"
+            android:text="1"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/activity_dm__login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_Login">
+
+
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:id="@+id/videoFade"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alpha="0.6"
+        android:background="@color/firstRunBackground" />
+
+    <ImageView
+        android:id="@+id/configImgView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_settings" />
+
+    <LinearLayout
+        android:id="@+id/linearFirst"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1.0">
+
+
+
+        <RelativeLayout
+            android:id="@+id/finedine_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:longClickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20.0dip"
+                android:background="@drawable/banner_logo"
+                android:paddingTop="100.0dip" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15.0dip"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/usernameInputLayout"
+                android:layout_width="400.0dip"
+                android:layout_height="100.0dip"
+                android:textColorHint="#ffffffff"
+                app:counterMaxLength="30">
+
+                <EditText
+                    android:id="@+id/usernameText"
+                    android:layout_width="400.0dip"
+                    android:layout_height="50.0dip"
+                    android:hint="@string/please_enter_your_username"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textColorLink="@color/white"
+                    fontPath="fonts/fontawesome-webfont.ttf"
+                    android:textSize="24.0sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_below="@+id/usernameInputLayout"
+                android:id="@+id/passwordInputLayout"
+                android:layout_width="400.0dip"
+                android:layout_height="100.0dip"
+                android:textColorHint="#ffffffff">
+
+                <EditText
+                    android:id="@+id/passwordText"
+                    android:layout_width="400.0dip"
+                    android:layout_height="50.0dip"
+                    android:hint="@string/please_enter_your_password"
+                    android:textColor="@color/white"
+                    android:textColorLink="@color/white"
+                    fontPath="fonts/fontawesome-webfont.ttf"
+                    android:inputType="textPassword"
+                    android:textSize="24.0sp" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50.0dip"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/buttonLogin"
+                android:layout_width="100.0dip"
+                android:layout_height="75.0dip"
+                android:layout_gravity="center_horizontal"
+                materialdesign:fb_borderColor="#ffff0080"
+                materialdesign:fb_borderWidth="2.0dip"
+                materialdesign:fb_ghost="true"
+                materialdesign:fb_radius="2.0dip"
+                materialdesign:fb_text="@string/btnLogin"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                materialdesign:fb_textColor="#ffff0080"
+                materialdesign:fb_textSize="21.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

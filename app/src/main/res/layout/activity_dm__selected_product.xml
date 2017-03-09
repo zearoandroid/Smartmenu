@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_SelectedProduct"
+    tools:ignore="MissingPrefix">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="520dp" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pager"
+        android:scrollbars="none">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/detailLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/image_layout"
+                android:paddingTop="10.0dip">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true">
+
+                    <LinearLayout
+                        android:id="@+id/calory_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/calory_icon"
+                            android:layout_width="30.0dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginStart="20.0dip"
+                            android:layout_marginLeft="20.0dip"
+                            android:background="@drawable/calorie_icon" />
+
+                        <TextView
+                            android:id="@+id/calory_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15.0dip"
+                            android:layout_marginLeft="15.0dip"
+                            android:layout_toRightOf="@+id/calory_icon"
+                            android:gravity="left"
+                            android:text=""
+                            android:textDirection="anyRtl"
+                            fontPath="fonts/fontawesome-webfont.ttf"
+                            android:textColor="@color/black"
+                            android:textSize="18.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/time_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/calory_layout"
+                        android:layout_marginTop="10.0dip"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/time_icon"
+                            android:layout_width="30.0dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginStart="20.0dip"
+                            android:layout_marginLeft="20.0dip"
+                            android:background="@drawable/time_icon" />
+
+                        <TextView
+                            android:id="@+id/time_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/calory_text"
+                            android:layout_marginStart="15.0dip"
+                            android:layout_marginLeft="15.0dip"
+                            android:layout_toRightOf="@+id/time_icon"
+                            android:gravity="left"
+                            android:text=""
+                            android:textDirection="anyRtl"
+                            fontPath="fonts/fontawesome-webfont.ttf"
+                            android:textColor="@color/black"
+                            android:textSize="18.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/shareLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="visible"
+                    android:layout_margin="5.0dip"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/fb_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5.0dip"
+                        android:layout_marginLeft="5.0dip"
+                        android:layout_marginRight="5.0dip"
+                        android:alpha="0.8"
+                        android:background="@drawable/facebook_flat_2x"
+                        android:visibility="visible"
+                        android:textColor="@color/gray" />
+
+                    <Button
+                        android:id="@+id/twitter_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/fb_button"
+                        android:alpha="0.8"
+                        android:visibility="gone"
+                        android:background="@drawable/twitter_flat_2x"
+                        android:textColor="@color/gray" />
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/add_button"
+                        android:layout_width="140.0dip"
+                        android:layout_height="60.0dip"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="visible"
+                        android:layout_marginLeft="5.0dip"
+                        android:layout_marginRight="5.0dip"
+                        fancy:fb_borderColor="@color/black"
+                        fancy:fb_focusColor="@color/purplelight"
+                        fancy:fb_borderWidth="2.0dip"
+                        fancy:fb_fontIconResource=""
+                        fancy:fb_fontIconSize="21.0sp"
+                        fancy:fb_ghost="true"
+                        fancy:fb_radius="2.0dip"
+                        fancy:fb_text="@string/add"
+                        fontPath="fonts/fontawesome-webfont.ttf"
+                        fancy:fb_textColor="@color/black"
+                        fancy:fb_textSize="21.0sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/price_layout"
+                    android:layout_marginStart="15.0dip"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_marginRight="15.0dip"
+                    android:layout_marginTop="30.0dip"
+                    android:maxLines="100"
+                    android:minHeight="800.0dip"
+                    android:overScrollMode="ifContentScrolls"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:text=""
+                    android:textDirection="anyRtl"
+                    fontPath="fonts/fontawesome-webfont.ttf"
+                    android:textColor="@color/black"
+                    android:textSize="26.0sp" />
+
+                <LinearLayout
+                    android:id="@+id/price_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/price_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15.0dip"
+                        android:gravity="center"
+                        android:text=""
+                        android:textDirection="anyRtl"
+                        fontPath="fonts/fontawesome-webfont.ttf"
+                        android:textColor="@color/black"
+                        android:textSize="30.0sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="7.0" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/category_btn"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="230.0dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@color/purplelight"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:padding="10.0dip"
+            android:text=""
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18.0sp" />
+
+        <ImageButton
+            android:id="@+id/updownButton"
+            android:layout_width="20.0dip"
+            android:layout_height="10.0dip"
+            android:layout_marginLeft="198.0dip"
+            android:layout_marginTop="20.0dip"
+            android:background="@drawable/down_arrow" />
+
+        <Button
+            android:id="@+id/feedback_btn"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="200.0dip"
+            android:layout_height="45.0dip"
+            android:layout_alignParentRight="true"
+            android:background="@color/purplelight"
+            android:gravity="center"
+            android:padding="10.0dip"
+            android:text="@string/feedback"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18.0sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/horizontal_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/feedback_btn"
+            android:background="#fff"
+            android:scrollbars="none" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/back_button"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="120.0dip"
+            android:layout_height="51.0dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginTop="20.0dip"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_borderWidth="2.0dip"
+            fancy:fb_defaultColor="@color/purplelight"
+            fancy:fb_fontIconResource=""
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text="@string/back"
+            fancy:fb_textColor="#ffffffff"
+            fancy:fb_textSize="19.0sp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/cart_button"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="120.0dip"
+            android:layout_height="51.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20.0dip"
+            android:layout_marginTop="20.0dip"
+            android:visibility="visible"
+            fancy:fb_borderColor="#ffffffff"
+            fancy:fb_borderWidth="2.0dip"
+            fancy:fb_defaultColor="@color/purplelight"
+            fancy:fb_fontIconResource=""
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="2.0dip"
+            fancy:fb_text="@string/cart"
+            fancy:fb_textSize="19.0sp" />
+
+        <TextView
+            android:id="@+id/cart_number"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="30.0dip"
+            android:layout_height="30.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_margin="1.0dip"
+            android:background="@drawable/round_edge_red_bg"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_Categories">
+
+    <ImageView
+        android:id="@id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/dm_background"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="455.0dip"
+                android:layout_height="86.0dip"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20.0dip"
+                android:background="@color/transparent"
+                android:scaleType="centerInside" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/back_button"
+                android:layout_width="120.0dip"
+                android:layout_height="51.0dip"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="20.0dip"
+                fancy:fb_defaultColor="#00000000"
+                fancy:fb_borderColor="#ffffffff"
+                fancy:fb_borderWidth="2.0dip"
+                fancy:fb_fontIconResource=""
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/back"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_textColor="#ffffffff"
+                fancy:fb_textSize="19.0sp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/cart_button"
+                android:layout_width="120.0dip"
+                android:layout_height="51.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20.0dip"
+                android:layout_marginTop="20.0dip"
+                android:visibility="visible"
+                fancy:fb_borderColor="#ffffffff"
+                fancy:fb_defaultColor="#00000000"
+                fancy:fb_borderWidth="2.0dip"
+                fancy:fb_fontIconResource=""
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/cart"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_textSize="19.0sp" />
+
+            <TextView
+                android:id="@+id/cart_number"
+                android:layout_width="30.0dip"
+                android:layout_height="30.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_margin="1.0dip"
+                android:background="@drawable/round_edge_red_bg"
+                android:gravity="center"
+                android:text="1"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/title_and_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/categories_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:text="@string/categoryTitle"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="40.0dip" />
+
+            <TextView
+                android:id="@+id/categories_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="5.0dip"
+                android:text="@string/categorySubTitle"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                android:textColor="@color/white"
+                android:textSize="24.0dip" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
+        </android.support.v7.widget.RecyclerView>
+
+        <RelativeLayout
+            android:id="@+id/finedine_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:longClickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20.0dip"
+                android:background="@drawable/bottom_logo"
+                android:paddingTop="100.0dip" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

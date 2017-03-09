@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="600dp"
+    android:minHeight="300dp"
+    android:background="#cfcfcf">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10.0dip"
+                android:text="@string/confirmation"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20.0dip" />
+        </RelativeLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            android:layout_width="400.0dip"
+            android:layout_height="100.0dip"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:textColorHint="#ffffffff">
+
+            <EditText
+                android:id="@+id/passwordText"
+                android:layout_width="400.0dip"
+                android:layout_height="50.0dip"
+                android:hint="@string/please_enter_your_password"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorLink="@color/white"
+                android:inputType="textPassword"
+                android:textSize="24.0sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:background="@color/purple"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginTop="20.0dip"
+            android:orientation="horizontal">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/submit"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/submit"/>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/cancel"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                android:layout_marginStart="15.0dip"
+                android:layout_marginLeft="15.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/close" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

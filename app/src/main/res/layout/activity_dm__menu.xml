@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/activity_dm__menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_Menu">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/banner"
+        android:scaleType="fitXY" />
+
+    <VideoView
+        android:id="@+id/video_background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="10.0dip"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/menu"
+            android:layout_width="250.0dip"
+            android:layout_height="250.0dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circular_btn"
+            android:alpha="0.7"
+            android:gravity="center"
+            android:text="@string/btnMenu"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:textAllCaps="false"
+            android:textColor="#ffffffff"
+            android:textSize="35.0sp" />
+
+        <LinearLayout
+            android:id="@+id/linear_buttons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginLeft="10.0dip">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/infoButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/info"
+                fancy:fb_radius="64.0dip" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/feedbackButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/feedback"
+                fancy:fb_radius="64.0dip"/>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/languageButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/globe"
+                fancy:fb_radius="64.0dip" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/tableSelectionButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/table_selection"
+                fancy:fb_radius="64.0dip" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/manualSyncButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/sync"
+                fancy:fb_radius="64.0dip" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/logoutButton"
+                android:layout_width="75.0dip"
+                android:layout_height="75.0dip"
+                android:layout_marginStart="10.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:padding="10dp"
+                fancy:fb_defaultColor="#ff333333"
+                fancy:fb_iconResource="@drawable/logout"
+                fancy:fb_radius="64.0dip" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layBattery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:gravity="right">
+
+            <LinearLayout
+                android:id="@id/finedine_logo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/batteryDisplay"
+                    android:background="@drawable/battery_20"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="15dp"
+                    android:layout_margin="3.0dip"
+                    android:text="10%"
+                    android:textColor="@color/white"
+                    fontPath="fonts/fontawesome-webfont.ttf"
+                    android:textSize="12.0sp" />
+
+                <ImageView
+                    android:id="@id/logoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_logo"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/black"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginEnd="11dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

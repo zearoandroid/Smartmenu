@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="600dp"
+    android:minHeight="350dp"
+    android:background="#cfcfcf">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10.0dip"
+                android:text="@string/cart"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20.0dip" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cart_table"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/purple"
+            android:gravity="right"
+            android:padding="10.0dip"
+            android:text=""
+            android:visibility="visible"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginTop="20.0dip"
+            android:orientation="horizontal">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/submit"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/submit"/>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/cancel"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                android:layout_marginStart="15.0dip"
+                android:layout_marginLeft="15.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/close" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

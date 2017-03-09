@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@id/RelativeLayout1"
+    android:layout_width="500.0dip"
+    android:layout_height="650.0dip"
+    android:background="#ffd6c9d0">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!--<ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="524.0dip"
+            android:layout_height="80.0dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10.0dip"
+            android:scaleType="fitCenter" />-->
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/feedback_form"
+            android:textColor="#ff4f0a2d"
+            android:textSize="20.0dip" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="20.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginTop="20.0dip"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="35.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblHospitality"
+                    android:layout_width="180.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/hospitality"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seekHospitality"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/valHospitality"
+                    android:layout_width="50.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5.0dip"
+                    android:text="1/5"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="35.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblProducts"
+                    android:layout_width="180.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/products"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seekProducts"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/valProducts"
+                    android:layout_width="50.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5.0dip"
+                    android:text="1/5"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="fill_parent"
+                android:layout_height="35.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblService"
+                    android:layout_width="180.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/service_hygiene"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seekService"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/valService"
+                    android:layout_width="50.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.0dip"
+                    android:text="1/5"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="fill_parent"
+                android:layout_height="35.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEnvironment"
+                    android:layout_width="180.0dip"
+                    android:layout_height="35.0dip"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/environment"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/seekEnvironment"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/valEnvironment"
+                    android:layout_width="50.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5.0dip"
+                    android:text="1/5"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="fill_parent"
+                android:layout_height="80.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblComments"
+                    android:layout_width="180.0dip"
+                    android:layout_height="35.0dip"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/comments"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <EditText
+                    android:id="@+id/editComments"
+                    android:layout_width="235.0dip"
+                    android:layout_height="80.0dip"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout6"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="180.0dip"
+                    android:layout_height="50.0dip"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/name"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <EditText
+                    android:id="@+id/editName"
+                    android:layout_width="200.0dip"
+                    android:layout_height="50.0dip"
+                    android:inputType="text"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblPhone"
+                    android:layout_width="180.0dip"
+                    android:layout_height="50.0dip"
+                    android:gravity="right"
+                    android:paddingRight="20.0dip"
+                    android:text="@string/phone"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <EditText
+                    android:id="@+id/editPhone"
+                    android:layout_width="200.0dip"
+                    android:layout_height="50.0dip"
+                    android:inputType="text"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout8"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEmail"
+                    android:layout_width="180.0dip"
+                    android:layout_height="50.0dip"
+                    android:gravity="right"
+                    android:text="@string/email"
+                    android:paddingRight="20.0dip"
+                    android:textColor="#ff4f0a2d"
+                    android:textSize="15.0dip" />
+
+                <EditText
+                    android:id="@+id/editEmail"
+                    android:layout_width="200.0dip"
+                    android:layout_height="50.0dip"
+                    android:inputType="text"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/submit"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                android:layout_marginLeft="15.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/submit" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/cancel"
+                android:layout_width="150.0dip"
+                android:layout_height="65.0dip"
+                android:layout_marginLeft="15.0dip"
+                fancy:fb_borderColor="@color/purplelight"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ffffffff"
+                fontPath="fonts/fontawesome-webfont.ttf"
+                fancy:fb_iconPosition="left"
+                fancy:fb_textSize="20sp"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_ghost="true"
+                fancy:fb_radius="2.0dip"
+                fancy:fb_text="@string/close" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

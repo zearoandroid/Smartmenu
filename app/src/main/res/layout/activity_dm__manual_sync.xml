@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/activity_dm__manual_sync"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#371c0d"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_ManualSync">
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/btnManualSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20.0dip"
+        android:layout_marginTop="20.0dip"
+        fancy:fb_borderColor="#ffffffff"
+        fancy:fb_defaultColor="#00000000"
+        fancy:fb_borderWidth="2.0dip"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="2.0dip"
+        fancy:fb_text="Manual Sync"
+        fontPath="fonts/fontawesome-webfont.ttf"
+        fancy:fb_textColor="#ffffffff"
+        fancy:fb_textSize="19.0sp" />
+
+
+</RelativeLayout>

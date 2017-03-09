@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">Smartmenu</string>
+    <bool name="isTablet">false</bool>
+    <string name="facebook_app_id">1149439968455577</string>
+    <string name="btnLogin">الدخول</string>
+    <string name="btnMenu">القائمة</string>
+    <string name="cart">بطاقة</string>
+    <string name="confirmation">تأكيد</string>
+    <string name="table">حدد الطاولة</string>
+    <string name="add">إضافة</string>
+    <string name="back">الخلف</string>
+    <string name="feedback">نموذج الملاحظات</string>
+    <string name="notes">الملاحظات</string>
+    <string name="name">اسم</string>
+    <string name="close">أغلق</string>
+    <string name="submit">تسليم</string>
+    <string name="settings_icon"></string>
+    <string name="feedback_form">نموذج الملاحظات</string>
+    <string name="hospitality">خدمات ضيافه</string>
+    <string name="products">المنتجات</string>
+    <string name="service_hygiene">الخدمة و النظافة</string>
+    <string name="environment">البيئة</string>
+    <string name="comments">تعليقات</string>
+    <string name="phone">هاتف</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="email_address_error">Please enter a valid email address.</string>
+    <string name="sharing_on_facebook">Sharing on Facebook</string>
+    <string name="please_enter_your_password">من فضلك أدخل رقمك السري</string>
+    <string name="please_enter_your_username">الرجاء إدخال اسم المستخدم</string>
+    <string name="please_add_note">Please add a note.</string>
+    <string name="categoryTitle">الأطباق الرئيسية</string>
+    <string name="categorySubTitle">هذا الإنقلاب القوائم اللوحي</string>
+    <string name="title_activity_dm__menu">DM_Menu</string>
+    <string name="title_activity_category_list">CategoryListActivity</string>
+    <string name="title_activity_dm__products">Dm_Products</string>
+    <string name="title_activity_dm__category_items">DM_CategoryItems</string>
+    <string name="title_activity_dm__splash">DM_Splash</string>
+    <string name="title_activity_dm__manual_sync">DM_ManualSync</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="pref_title_data_load">Fast / Live</string>
+    <string name="title_activity_posterminal">POSTerminalActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="information">
+        Zearo Introduced visualize the restaurant menu according to your restaurant that evokes the brand and introduces your menus in the most interactive manner with Smart Menu App. Digital Restaurant EMenu (Smart Menu) offers robust features that not only help your restaurant to update the menu anytime but also
+        improves the overall dining experience.\n\nThe tablet menu provides a user-friendly interface offering smooth navigation and browsing through digital menu a delightful experience.\n\n
+        Smart Menu application supports Android Tablets giving your freedom to choose best platform of your choice This Android App is often classified as Digital menu software, Restaurant menu app, Tablet Menu System or even Mobile Restaurant Menu System.
+    </string>
+
+    <string name="address">
+        Zearo Consulting Services\n
+        M : +974 6681 5564\n
+        E : sales@zearoconsulting.com\n
+        W : www.zearoconsulting.com
+    </string>
+
+</resources>

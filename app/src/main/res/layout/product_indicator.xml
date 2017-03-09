@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutOfIndicator"
+        android:layout_width="200.0dip"
+        android:layout_height="200.0dip">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60.0dip"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.7"
+            android:background="@color/transWhite" />
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="60.0dip"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:background="@color/purplelight"
+            android:shadowColor="@color/black"
+            android:alpha="0.7"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="2.0"
+            android:text=""
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:textColor="@color/white"
+            android:textSize="20.0sp" />
+
+        <ImageView
+            android:id="@+id/image_mask"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:alpha="0.4"
+            android:background="@color/black" />
+    </RelativeLayout>
+</LinearLayout>
