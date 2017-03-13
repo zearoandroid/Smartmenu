@@ -84,6 +84,9 @@
             android:name=".domain.services.TableStatusService"
             android:exported="false" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="746f1850e1ede270011df2818c4010cab3a3140e" />
     </application>
 
 </manifest>

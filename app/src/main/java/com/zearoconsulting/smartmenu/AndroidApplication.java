@@ -9,9 +9,12 @@ import android.graphics.Typeface;
 import android.util.Base64;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 
+import io.fabric.sdk.android.Fabric;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -28,10 +31,12 @@ public class AndroidApplication extends Application {
     private static DBHelper mDBHelper;
     private static String mLanguage = "en";
     private static boolean activityVisible;
+    private static SMDataSource mSMDataSource;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         sInstance = this;
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -71,6 +76,15 @@ public class AndroidApplication extends Application {
         }
 
         return mDBHelper;
+    }
+
+    public SMDataSource getSMDataSource(){
+        if(mSMDataSource == null){
+            mSMDataSource = new SMDataSource(getAppContext());
+            mSMDataSource.open();
+        }
+
+        return mSMDataSource;
     }
 
     public static boolean isActivityVisible() {

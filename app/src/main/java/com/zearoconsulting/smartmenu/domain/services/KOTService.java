@@ -8,6 +8,7 @@ import android.os.ResultReceiver;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 import com.zearoconsulting.smartmenu.utils.AppConstants;
 
@@ -31,7 +32,7 @@ public class KOTService extends IntentService {
 
     private static final String TAG = "KOTService";
     public AppDataManager mAppManager;
-    public DBHelper mDBHelper;
+    public SMDataSource mDBHelper;
     public JSONParser mParser;
 
     public static final int STATUS_RUNNING = 0;
@@ -47,7 +48,7 @@ public class KOTService extends IntentService {
         if (intent != null) {
 
             mAppManager = AndroidApplication.getInstance().getAppManager();
-            mDBHelper = AndroidApplication.getInstance().getDBHelper();
+            mDBHelper = AndroidApplication.getInstance().getSMDataSource();
 
             AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
 

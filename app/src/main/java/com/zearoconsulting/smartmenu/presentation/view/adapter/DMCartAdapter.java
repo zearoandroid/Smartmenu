@@ -44,7 +44,12 @@ public class DMCartAdapter extends RecyclerView.Adapter<DMCartAdapter.CartItemHo
         final KOTLineItems kotModel = mKOTLineItemList.get(pos);
         try {
             final Product product = kotModel.getProduct();
-            holder.name.setText(product.getProdName());
+            if(!product.getProdArabicName().equalsIgnoreCase("")){
+                holder.name.setText(product.getProdArabicName()+"\n"+product.getProdName());
+            }else{
+                holder.name.setText(product.getProdName());
+            }
+
             holder.note.setText(kotModel.getNotes());
             holder.totalQty.setText("x"+String.valueOf(kotModel.getQty()));
 

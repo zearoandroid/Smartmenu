@@ -90,8 +90,8 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
         localFragmentManager = getSupportFragmentManager();
         foundFragment = getFragmentManager().findFragmentByTag("TableSelectionFragment");
 
-        //mIntent = new Intent(this, TableStatusService.class);
-        //this.startService(mIntent);
+        mIntent = new Intent(this, TableStatusService.class);
+        this.startService(mIntent);
 
         boolean isAvail = mDBHelper.checkAllCategory();
         if(!isAvail){

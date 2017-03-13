@@ -167,8 +167,8 @@ public class AppConstants {
     /**initiated device identity */
     public static boolean isMobile = false;
 
-    /**initiated table service default */
-    public static boolean isTableService = true;
+    /**initiated table visible default */
+    public static boolean isTableVisible = false;
 
     public static boolean isPasswordValidated = false;
 }

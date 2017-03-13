@@ -36,6 +36,8 @@ import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
+import static com.zearoconsulting.smartmenu.utils.AppConstants.isTableVisible;
+
 public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTextListener, IDMListeners, CartViewFragment.OnCartUpdatedListener {
 
     private RecyclerView mProductRecyclerView;
@@ -194,6 +196,8 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
     @Override
     protected void onResume() {
         super.onResume();
+
+        isTableVisible = false;
 
         //Add a listener to the spring
         mSpring.addListener(mReboundListener);

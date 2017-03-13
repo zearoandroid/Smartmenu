@@ -11,6 +11,7 @@ import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener;
 import com.zearoconsulting.smartmenu.utils.AppConstants;
@@ -22,7 +23,7 @@ import com.zearoconsulting.smartmenu.utils.AppConstants;
 public class DMBaseActivity extends AppCompatActivity {
 
     public AppDataManager mAppManager;
-    public DBHelper mDBHelper;
+    public SMDataSource mDBHelper;
     public JSONParser mParser;
     public ProgressDialog mProDlg;
 
@@ -48,7 +49,7 @@ public class DMBaseActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mAppManager = AndroidApplication.getInstance().getAppManager();
-        mDBHelper = AndroidApplication.getInstance().getDBHelper();
+        mDBHelper = AndroidApplication.getInstance().getSMDataSource();
 
         mParser = new JSONParser(AndroidApplication.getAppContext(), mAppManager, mDBHelper);
 

@@ -40,10 +40,16 @@ public class DM_Splash extends DMBaseActivity {
                 }
                 startActivity(mIntent);
 
+                //forceCrash();
                 // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
     }
+
+    public void forceCrash() {
+        throw new RuntimeException("This is a crash");
+    }
+
 
 }

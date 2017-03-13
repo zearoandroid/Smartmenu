@@ -12,6 +12,7 @@ import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.presentation.model.BPartner;
 import com.zearoconsulting.smartmenu.presentation.model.Category;
 import com.zearoconsulting.smartmenu.presentation.model.Customer;
@@ -40,13 +41,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import static com.zearoconsulting.smartmenu.utils.AppConstants.isTableVisible;
+
 /**
  * Created by saravanan on 25-05-2016.
  */
 public class JSONParser {
 
     private AppDataManager mAppManager;
-    private DBHelper mDBHelper;
+    private SMDataSource mDBHelper;
     private Context mContext;
     private Bundle b = new Bundle();
 
@@ -55,7 +58,7 @@ public class JSONParser {
      * @param appDataManager
      * @param dbHelper
      */
-    public JSONParser(Context context, AppDataManager appDataManager, DBHelper dbHelper) {
+    public JSONParser(Context context, AppDataManager appDataManager, SMDataSource dbHelper) {
 
         this.mContext = context;
         this.mAppManager = appDataManager;
@@ -453,7 +456,9 @@ public class JSONParser {
                     tableIdList.add(tableId);
                 }
             } else if (json.getInt("responseCode") == 101) {
-                mDBHelper.deleteKOTLineItems(0);
+                if(isTableVisible) {
+                    mDBHelper.deleteKOTLineItems(0);
+                }
                 mDBHelper.updateTableStatusAvailable(0);
             }
         } catch (Exception e) {

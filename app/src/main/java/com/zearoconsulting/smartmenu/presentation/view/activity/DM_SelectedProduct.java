@@ -67,6 +67,8 @@ import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
+import static com.zearoconsulting.smartmenu.utils.AppConstants.isTableVisible;
+
 public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, CartViewFragment.OnCartUpdatedListener{
 
     AddCartListener addCartListener = new AddCartListener() {
@@ -395,6 +397,8 @@ public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, 
     @Override
     protected void onResume() {
         super.onResume();
+
+        isTableVisible = false;
 
         //Add a listener to the spring
         mSpring.addListener(mReboundListener);

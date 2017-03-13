@@ -46,6 +46,7 @@ import java.util.List;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.zearoconsulting.smartmenu.utils.AppConstants.isTableVisible;
 
 /**
  * Created by saravanan on 11-11-2016.
@@ -140,16 +141,20 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
 
     @Override
     public void onResume() {
+
         try {
+            isTableVisible = true;
             updateHandler.postDelayed(runnable, 5000);
         }catch (Exception e){
             e.printStackTrace();
         }
         super.onResume();
+
     }
 
     @Override
     public void onPause() {
+        isTableVisible = false;
         updateHandler.removeCallbacks(runnable);
         super.onPause();
     }
@@ -207,14 +212,14 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         runnable = new Runnable(){
 
             public void run() {
-                //updateTableViews(); // some action(s)
-                getTableStatus();
-                updateHandler.postDelayed(this, 10000);
+                updateTableViews(); // some action(s)
+                //getTableStatus();
+                updateHandler.postDelayed(this, 5000);
             }
 
         };
 
-        updateHandler.postDelayed(runnable, 10000);
+        updateHandler.postDelayed(runnable, 5000);
     }
 
     private void getTableStatus(){

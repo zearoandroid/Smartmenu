@@ -7,6 +7,7 @@ import android.util.Log;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 import com.zearoconsulting.smartmenu.utils.AppConstants;
 import com.zearoconsulting.smartmenu.utils.NetworkUtil;
@@ -36,7 +37,7 @@ public class TableStatusService extends IntentService {
 
     private static final String TAG = "TableStatusService";
     private AppDataManager mAppManager;
-    private DBHelper mDBHelper;
+    private SMDataSource mDBHelper;
     private JSONParser mParser;
     private Timer t = new Timer();
 
@@ -51,7 +52,7 @@ public class TableStatusService extends IntentService {
             System.out.println("Service started .... \n");
 
             mAppManager = AndroidApplication.getInstance().getAppManager();
-            mDBHelper = AndroidApplication.getInstance().getDBHelper();
+            mDBHelper = AndroidApplication.getInstance().getSMDataSource();
             mParser = new JSONParser(AndroidApplication.getAppContext(), mAppManager, mDBHelper);
 
             AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
@@ -67,7 +68,7 @@ public class TableStatusService extends IntentService {
                             String results = getResponse();
 
                             if (!results.equalsIgnoreCase("")) {
-                                //mParser.parseTableStatus(results, null);
+                                mParser.parseTableStatus(results, null);
                             }
                         }else{
                             Log.e(TAG,"NO INTERNET CONNECTION");

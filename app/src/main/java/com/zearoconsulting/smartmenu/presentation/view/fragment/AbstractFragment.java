@@ -10,6 +10,7 @@ import com.facebook.rebound.SpringSystem;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 
 /**
@@ -18,7 +19,7 @@ import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 public class AbstractFragment extends Fragment {
 
     public AppDataManager mAppManager;
-    public DBHelper mDBHelper;
+    public SMDataSource mDBHelper;
     public JSONParser mParser;
     public ProgressDialog mProDlg;
 
@@ -35,7 +36,7 @@ public class AbstractFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mAppManager = AndroidApplication.getInstance().getAppManager();
-        mDBHelper = AndroidApplication.getInstance().getDBHelper();
+        mDBHelper = AndroidApplication.getInstance().getSMDataSource();
 
         mParser = new JSONParser(AndroidApplication.getAppContext(), mAppManager, mDBHelper);
 

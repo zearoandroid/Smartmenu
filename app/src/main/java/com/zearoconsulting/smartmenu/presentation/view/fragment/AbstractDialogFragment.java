@@ -10,6 +10,7 @@ import com.facebook.rebound.SpringSystem;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.DBHelper;
+import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.domain.parser.JSONParser;
 import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener;
 
@@ -20,7 +21,7 @@ import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener
 public class AbstractDialogFragment extends DialogFragment {
 
     public AppDataManager mAppManager;
-    public DBHelper mDBHelper;
+    public SMDataSource mDBHelper;
     public JSONParser mParser;
 
     private SpringSystem mSpringSystem;
@@ -37,7 +38,7 @@ public class AbstractDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         mAppManager = AndroidApplication.getInstance().getAppManager();
-        mDBHelper = AndroidApplication.getInstance().getDBHelper();
+        mDBHelper = AndroidApplication.getInstance().getSMDataSource();
 
         mParser = new JSONParser(AndroidApplication.getAppContext(), mAppManager, mDBHelper);
 
