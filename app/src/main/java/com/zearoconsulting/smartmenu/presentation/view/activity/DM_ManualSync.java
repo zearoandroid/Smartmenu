@@ -2,6 +2,8 @@ package com.zearoconsulting.smartmenu.presentation.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -136,6 +138,7 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
                                 @Override
                                 public void run() {
                                     mDBHelper.deleteSmartMenuTables();
+                                    addCategory();
                                     getTables();
                                 }
                             }, 200);
@@ -162,6 +165,31 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
         }
     }
 
+    private void addCategory(){
+        try{
+            boolean isAvail = mDBHelper.checkAllCategory();
+            if(!isAvail){
+                Category category = new Category();
+                category.setCategoryId(0);
+                category.setCategoryName("All (Quick Menu)");
+                category.setCategoryValue("All (Quick Menu)");
+
+                // Retrieve the image from the res folder
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.no_product);
+                String imagePath = FileUtils.storeImage("", 0, bitmap);
+                category.setCategoryImage(imagePath);
+                category.setShowDigitalMenu("Y");
+                category.setCategoryArabicName("القائمة السريعة");
+                category.setClientId(mAppManager.getClientID());
+                category.setOrgId(mAppManager.getOrgID());
+
+                //add category
+                mDBHelper.addCategory(category);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private void getCategory() {
         if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
 

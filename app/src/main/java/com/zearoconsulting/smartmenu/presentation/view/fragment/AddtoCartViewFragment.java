@@ -356,7 +356,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
                                         }
 
                                         isAddTabed = true;
-                                        AddtoCartViewFragment.this.dismiss();
+                                        AddtoCartViewFragment.this.dismissAllowingStateLoss();
                                         if(page.equalsIgnoreCase("ProductDetail")){
                                             ((DM_SelectedProduct) AddtoCartViewFragment.this.getActivity()).refreshCartNumber();
                                         }else{

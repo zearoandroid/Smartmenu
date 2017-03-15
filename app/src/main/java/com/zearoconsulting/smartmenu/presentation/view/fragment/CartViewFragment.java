@@ -21,6 +21,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.domain.net.NetworkDataRequestThread;
 import com.zearoconsulting.smartmenu.presentation.model.KOTLineItems;
@@ -207,6 +212,8 @@ public class CartViewFragment extends AbstractDialogFragment {
         //updateTotal
         updateTotal();
 
+        AppConstants.isPasswordValidated = false;
+
         // Add an OnTouchListener to the root view.
         this.mBtnCancel.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -298,8 +305,31 @@ public class CartViewFragment extends AbstractDialogFragment {
                     if(tokenArray.length()!=0){
                         Log.i("KOTJson", mJsonObj.toString());
 
-                        NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.POST_KOT_DATA);
-                        thread.start();
+                        //NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.POST_KOT_DATA);
+                        //thread.start();
+
+                        AndroidApplication.getInstance().cancelPendingRequests(this);
+
+                        AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
+                                new Response.Listener<JSONObject>(){
+
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        mParser.parseKOTResponse(response.toString(),mHandler);
+                                    }
+                                }, new Response.ErrorListener(){
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                                mProDlg.dismiss();
+                            }
+                        }
+                        );
+
+                        // Adding request to request queue
+                        AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);
+
                     }else {
                         AppConstants.tableID = 0;
                         gotoMainPage();
@@ -323,7 +353,7 @@ public class CartViewFragment extends AbstractDialogFragment {
         mProDlg.dismiss();
         //update the cart count number
         ((OnCartUpdatedListener) getActivity()).onCartUpdated();
-        dismiss();
+        dismissAllowingStateLoss();
 
         AppConstants.isPasswordValidated = false;
 

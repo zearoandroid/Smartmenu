@@ -81,7 +81,7 @@ public class LoadingDialogFragment extends AbstractDialogFragment {
                     if (mAppManager.getUserName().equalsIgnoreCase(username) && mDBHelper.getAllProduct(mAppManager.getClientID(),mAppManager.getOrgID()).size() != 0) {
                         mAppManager.setLoggedIn(true);
                         progressWheel.stopSpinning();
-                        dismiss();
+                        dismissAllowingStateLoss();
                         mIntent = new Intent(context, DM_Menu.class);
                         startActivity(mIntent);
                         getActivity().finish();
@@ -121,17 +121,17 @@ public class LoadingDialogFragment extends AbstractDialogFragment {
                     break;
                 case AppConstants.NO_DATA_RECEIVED:
                     progressWheel.stopSpinning();
-                    dismiss();
+                    dismissAllowingStateLoss();
                     break;
                 case AppConstants.SERVER_ERROR:
                     progressWheel.stopSpinning();
                     Toast.makeText(context, "Server data error", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                    dismissAllowingStateLoss();
                     break;
                 case AppConstants.DEVICE_NOT_REGISTERED:
                     progressWheel.stopSpinning();
                     Toast.makeText(context, "Device not registered to server!", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                    dismissAllowingStateLoss();
                     break;
                 default:
                     break;

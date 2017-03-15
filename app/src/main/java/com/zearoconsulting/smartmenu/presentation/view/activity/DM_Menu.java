@@ -90,22 +90,22 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
         localFragmentManager = getSupportFragmentManager();
         foundFragment = getFragmentManager().findFragmentByTag("TableSelectionFragment");
 
-        mIntent = new Intent(this, TableStatusService.class);
-        this.startService(mIntent);
+        //mIntent = new Intent(this, TableStatusService.class);
+        //this.startService(mIntent);
 
         boolean isAvail = mDBHelper.checkAllCategory();
         if(!isAvail){
             Category category = new Category();
             category.setCategoryId(0);
-            category.setCategoryName("All");
-            category.setCategoryValue("All Products");
+            category.setCategoryName("All (Quick Menu)");
+            category.setCategoryValue("All (Quick Menu)");
 
             // Retrieve the image from the res folder
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.no_product);
             String imagePath = FileUtils.storeImage("", 0, bitmap);
             category.setCategoryImage(imagePath);
             category.setShowDigitalMenu("Y");
-            category.setCategoryArabicName("الكل");
+            category.setCategoryArabicName("القائمة السريعة");
             category.setClientId(mAppManager.getClientID());
             category.setOrgId(mAppManager.getOrgID());
 

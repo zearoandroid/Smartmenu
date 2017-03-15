@@ -109,7 +109,7 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
         }else{
             mSearchView.setVisibility(View.VISIBLE);
             //Turn iconified to false:
-            mSearchView.setIconified(false);
+            //mSearchView.setIconified(false);
             mProductRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             mProductRecyclerView.setBackgroundColor(Color.parseColor("#FFEBEDEF"));
             mProductList = mDBHelper.getAllProduct(mAppManager.getClientID(), mAppManager.getOrgID());
@@ -281,9 +281,14 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
 
     @Override
     public boolean onQueryTextChange(String query) {
-        final List<Product> filteredModelList = filter(mProductList, query);
-        mAllProdAdapter.setFilter(filteredModelList);
-        return true;
+        if(mProductList!=null){
+            final List<Product> filteredModelList = filter(mProductList, query);
+            mAllProdAdapter.setFilter(filteredModelList);
+            return true;
+        }else{
+            return  false;
+        }
+
     }
 
     private List<Product> filter(List<Product> models, String query) {

@@ -22,8 +22,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.domain.net.NetworkDataRequestThread;
 import com.zearoconsulting.smartmenu.domain.receivers.KOTDataReceiver;
@@ -61,6 +67,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
     private FancyButton mBtnCancel;
     Handler updateHandler = new Handler();
     Runnable runnable;
+    private TextView mTxtTitle;
 
     final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -185,6 +192,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         mProDlg.setIndeterminate(true);
         mProDlg.setCancelable(false);
 
+        this.mTxtTitle = (TextView) paramView.findViewById(R.id.title);
         this.mBtnCancel = (FancyButton)paramView.findViewById(R.id.backButton);
         this.tableListView = ((RecyclerView) paramView.findViewById(R.id.table_selection));
         mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(),mAppManager.getOrgID());
@@ -212,14 +220,14 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         runnable = new Runnable(){
 
             public void run() {
-                updateTableViews(); // some action(s)
-                //getTableStatus();
+                //updateTableViews(); // some action(s)
+                getTableStatus1();
                 updateHandler.postDelayed(this, 5000);
             }
 
         };
 
-        updateHandler.postDelayed(runnable, 5000);
+        //updateHandler.postDelayed(runnable, 5000);
     }
 
     private void getTableStatus(){
@@ -228,6 +236,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
 
                 mProDlg.setMessage("Getting tables status...");
                 //mProDlg.show();
+                mTxtTitle.setText("Select Table (Refreshing...)");
 
                 JSONObject mJsonObj = mParser.getParams(AppConstants.GET_TABLE_STATUS);
                 Log.i("KOTJson", mJsonObj.toString());
@@ -250,12 +259,34 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                 mProDlg.setMessage("Getting tables details...");
                 mProDlg.show();
 
+                AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
                 JSONObject mJsonObj = mParser.getParams(AppConstants.GET_TABLE_KOT_DETAILS);
                 mJsonObj.put("tableId", AppConstants.tableID);
                 Log.i("KOTJson", mJsonObj.toString());
 
-                NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.GET_TABLE_KOT_DETAILS);
-                thread.start();
+                //NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.GET_TABLE_KOT_DETAILS);
+                //thread.start();
+
+                AndroidApplication.getInstance().cancelPendingRequests(this);
+
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
+                        new Response.Listener<JSONObject>(){
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                mParser.parseTableKOTDataResponse(response.toString(),mHandler);
+                            }
+                        }, new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                        mProDlg.dismiss();
+                    }
+                }
+                );
+
+                // Adding request to request queue
+                AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -266,6 +297,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
     }
 
     public void updateTableViews(){
+        mTxtTitle.setText("Select Table");
         List<Long> mTableIdLists = mDBHelper.getTableIdsLocalAvailable();
         for(int i=0;i<mTableIdLists.size(); i++){
             mDBHelper.updateTableStatusAvailable(mTableIdLists.get(i));
@@ -281,4 +313,42 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         dismiss();
     }
 
+    private void getTableStatus1(){
+        if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
+            try {
+
+                mTxtTitle.setText("Select Table (Refreshing...)");
+
+                AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+                JSONObject mJsonObj = mParser.getParams(AppConstants.GET_TABLE_STATUS);
+                Log.i("KOTJson", mJsonObj.toString());
+
+                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
+                        new Response.Listener<JSONObject>(){
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                mParsingTableIdList = mParser.parseTableStatus(response.toString(), null);
+                                //Update adapter colors
+                                updateTableViews();
+                            }
+                        }, new Response.ErrorListener(){
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                                    //mProDlg.dismiss();
+                                }
+                            }
+                        );
+
+                // Adding request to request queue
+                AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            //show network failure dialog or toast
+            NetworkErrorDialog.buildDialog(getActivity()).show();
+        }
+    }
 }
