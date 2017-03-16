@@ -1115,7 +1115,7 @@ public class SMDataSource {
             if (tableId != 0)
                 strSQL = "update kotTables set isOrderAvailable='Y' where kotTableId = '" + tableId + "';";
             else
-                strSQL = "update kotTables set isOrderAvailable='N';";
+                strSQL = "update kotTables set isOrderAvailable='N' where kotTableId = '" + tableId + "';";
 
             db.execSQL(strSQL);
         } catch (Exception e) {

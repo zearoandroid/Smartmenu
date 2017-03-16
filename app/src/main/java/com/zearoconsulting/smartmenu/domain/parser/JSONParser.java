@@ -436,6 +436,8 @@ public class JSONParser {
         int length = 0;
         long tableId = 0;
 
+        AppConstants.isKotParsing = true;
+
         try {
             tableIdList = new ArrayList<Long>();
             json = new JSONObject(jsonStr);
@@ -455,11 +457,11 @@ public class JSONParser {
 
                     tableIdList.add(tableId);
                 }
-            } else if (json.getInt("responseCode") == 101) {
+            }else if (json.getInt("responseCode") == 101) {
                 if(isTableVisible) {
                     mDBHelper.deleteKOTLineItems(0);
+                    mDBHelper.updateTableStatusAvailable(0);
                 }
-                mDBHelper.updateTableStatusAvailable(0);
             }
         } catch (Exception e) {
             e.printStackTrace();

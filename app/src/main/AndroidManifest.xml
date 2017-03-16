@@ -80,9 +80,9 @@
             android:name=".presentation.view.activity.DM_SelectedProduct"
             android:label="@string/title_activity_dm__selected_product" />
 
-        <service
+        <!--<service
             android:name=".domain.services.TableStatusService"
-            android:exported="false" />
+            android:exported="false" />-->
 
         <meta-data
             android:name="io.fabric.ApiKey"

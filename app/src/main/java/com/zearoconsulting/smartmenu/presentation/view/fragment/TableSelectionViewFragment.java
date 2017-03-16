@@ -78,6 +78,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                 case AppConstants.GET_TABLE_STATUS:
                     mParsingTableIdList = mParser.parseTableStatus(jsonStr, mHandler);
                     mProDlg.dismiss();
+                    AppConstants.isKotParsing = false;
                     //Update adapter colors
                     updateTableViews();
                     break;
@@ -207,6 +208,14 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         tableListView.setItemAnimator(animator);
         tableListView.setAdapter(mTableAdapter);
 
+
+        /*if(isTableVisible) {
+            mDBHelper.deleteKOTLineItems(0);
+            mDBHelper.updateTableStatusAvailable(0);
+
+            updateTableViews();
+        }*/
+
         //set the table select listener
         mTableAdapter.setOnTableSelectListener(tableSelectListener);
 
@@ -221,7 +230,9 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
 
             public void run() {
                 //updateTableViews(); // some action(s)
-                getTableStatus1();
+                //if(!AppConstants.isKotParsing) {
+                    getTableStatus1();
+                //}
                 updateHandler.postDelayed(this, 5000);
             }
 

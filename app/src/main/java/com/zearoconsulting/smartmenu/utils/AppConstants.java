@@ -162,7 +162,7 @@ public class AppConstants {
     public static boolean isOrderPosted = false;
 
     /**initiated order printed default status */
-    public static boolean isOrderPrinted = false;
+    public static boolean isKotParsing = false;
 
     /**initiated device identity */
     public static boolean isMobile = false;
