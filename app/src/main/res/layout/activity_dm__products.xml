@@ -118,11 +118,11 @@
         <android.support.v7.widget.SearchView
             android:id="@+id/edtSearchProduct"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:layout_height="80dp"
+            android:drawableLeft="@drawable/ic_search_black"
             android:background="@color/white"
             android:layout_margin="5dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:hint="Search Product..."/>
 
         <android.support.v7.widget.RecyclerView

@@ -10,8 +10,6 @@
     android:layout_height="match_parent"
     tools:context="com.zearoconsulting.smartmenu.presentation.view.activity.DM_Login">
 
-
-
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="fill_parent"
@@ -44,8 +42,6 @@
         android:gravity="center"
         android:orientation="vertical"
         android:weightSum="1.0">
-
-
 
         <RelativeLayout
             android:id="@+id/finedine_logo"
@@ -112,6 +108,48 @@
                     android:inputType="textPassword"
                     android:textSize="24.0sp" />
             </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="400.0dip"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passwordInputLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:text="Mode: "/>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/radGroupMode" >
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radWaiter"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:text="Waiter" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:id="@+id/radCustomer"
+                        android:text="Customer" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
         </RelativeLayout>
 
         <LinearLayout

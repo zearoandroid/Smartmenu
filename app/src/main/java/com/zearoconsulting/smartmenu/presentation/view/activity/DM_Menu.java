@@ -1,12 +1,14 @@
 package com.zearoconsulting.smartmenu.presentation.view.activity;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -65,6 +67,8 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
     InfoFragment infoFragment;
     Fragment foundFragment;
     FragmentManager localFragmentManager;
+
+    private int mAppMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +223,13 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                mAppMode = mAppManager.getAppMode();
+                                if(mAppMode == 1)
                                 SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "TABLE").show(localFragmentManager, "TABLE");
+                                else if(mAppMode == 0){
+                                    TableSelectionViewFragment tableSelectionViewFragment = new TableSelectionViewFragment();
+                                    tableSelectionViewFragment.show(localFragmentManager, "TableSelectionFragment");
+                                }
                             }
                         }, 200);
                         break;
@@ -273,7 +283,12 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                mAppMode = mAppManager.getAppMode();
+                                if(mAppMode == 1)
                                 SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "LOGOUT").show(localFragmentManager, "LOGOUT");
+                                else if(mAppMode == 0){
+                                    logout();
+                                }
                             }
                         }, 200);
                         break;
@@ -470,5 +485,35 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public void logout() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DM_Menu.this);
+
+        alertDialog.setTitle("Logout"); // Sets title for your alertbox
+
+        alertDialog.setMessage("Are you sure you want to Logout ?"); // Message to be displayed on alertbox
+
+        alertDialog.setIcon(R.mipmap.ic_launcher); // Icon for your alertbox
+
+        /* When positive (yes/ok) is clicked */
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                mAppManager.setLoggedIn(false);
+                Intent mIntent = new Intent(DM_Menu.this, DM_Login.class);
+                startActivity(mIntent);
+                finish();
+            }
+        });
+
+        /* When negative (No/cancel) button is clicked*/
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
     }
 }

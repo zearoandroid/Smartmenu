@@ -68,6 +68,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
     Handler updateHandler = new Handler();
     Runnable runnable;
     private TextView mTxtTitle;
+    private TextView mTxtUserName;
 
     final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -196,6 +197,9 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         this.mTxtTitle = (TextView) paramView.findViewById(R.id.title);
         this.mBtnCancel = (FancyButton)paramView.findViewById(R.id.backButton);
         this.tableListView = ((RecyclerView) paramView.findViewById(R.id.table_selection));
+        this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
+        mTxtUserName.setText("Hello "+mAppManager.getUserName());
+
         mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(),mAppManager.getOrgID());
         mTableIdList = mDBHelper.getTableIds(mAppManager.getClientID(),mAppManager.getOrgID());
 

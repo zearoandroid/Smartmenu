@@ -17,6 +17,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.zearoconsulting.smartmenu.R;
@@ -38,6 +40,12 @@ public class DM_Login extends DMBaseActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private ImageView mImgCofig;
 
+    private RadioGroup mRadGroupMode;
+    private RadioButton mRadWaiter;
+    private RadioButton mRadCustomer;
+
+    private int mAppMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,9 @@ public class DM_Login extends DMBaseActivity {
         mEdtUserPassword= (EditText) findViewById(R.id.passwordText);
         mLoginBtn = (FancyButton)findViewById(R.id.buttonLogin);
         mImgCofig = (ImageView)findViewById(R.id.configImgView);
+        mRadGroupMode = (RadioGroup)findViewById(R.id.radGroupMode);
+        mRadWaiter = (RadioButton) findViewById(R.id.radWaiter);
+        mRadCustomer = (RadioButton) findViewById(R.id.radCustomer);
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkPermission()) {
@@ -73,6 +84,30 @@ public class DM_Login extends DMBaseActivity {
             public void onClick(View v) {
                 showConfiguration();
             }
+        });
+
+        mAppMode = mAppManager.getAppMode();
+        if(mAppMode == 0)
+            ((RadioButton)mRadGroupMode.getChildAt(0)).setChecked(true);
+        else if(mAppMode == 1)
+            ((RadioButton)mRadGroupMode.getChildAt(1)).setChecked(true);
+
+        mRadGroupMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // find which radio button is selected
+                if(checkedId == R.id.radWaiter) {
+                    mAppManager.setAppMode(0);
+                    Toast.makeText(getApplicationContext(), "Mode: Waiter",
+                            Toast.LENGTH_SHORT).show();
+                } else if(checkedId == R.id.radCustomer) {
+                    mAppManager.setAppMode(1);
+                    Toast.makeText(getApplicationContext(), "Mode: Customer",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
         });
 
         // Add an OnTouchListener to the root view.
@@ -101,6 +136,8 @@ public class DM_Login extends DMBaseActivity {
                 return true;
             }
         });
+
+
     }
 
     @Override
@@ -135,6 +172,22 @@ public class DM_Login extends DMBaseActivity {
         username = mEdtUserName.getText().toString().trim();
         password = mEdtUserPassword.getText().toString().trim();
 
+        int selectedId = mRadGroupMode.getCheckedRadioButtonId();
+
+        mAppMode = mAppManager.getAppMode();
+
+        // find which radioButton is checked by id
+        if(selectedId == mRadWaiter.getId()) {
+            mAppManager.setAppMode(0);
+        } else if(selectedId == mRadCustomer.getId()) {
+            mAppManager.setAppMode(1);
+        } else {
+            mAppManager.setAppMode(-1);
+            Toast.makeText(getApplicationContext(), "Please select any one of the mode",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(mEdtUserName.getText().toString().trim().equals("")){
             mEdtUserName.setError("Username should not be empty");
         }else if(mEdtUserPassword.getText().toString().trim().equals("")){
@@ -145,12 +198,22 @@ public class DM_Login extends DMBaseActivity {
             mAppManager.clearUserSessionData();
             mAppManager.setUsername(username);
             mAppManager.setPassword(password);
+            if(selectedId == mRadWaiter.getId()) {
+                mAppManager.setAppMode(0);
+            } else if(selectedId == mRadCustomer.getId()) {
+                mAppManager.setAppMode(1);
+            }
             showLoading();
         }else{
             mDBHelper.deleteDhukanTables();
             mAppManager.clearUserSessionData();
             mAppManager.setUsername(username);
             mAppManager.setPassword(password);
+            if(selectedId == mRadWaiter.getId()) {
+                mAppManager.setAppMode(0);
+            } else if(selectedId == mRadCustomer.getId()) {
+                mAppManager.setAppMode(1);
+            }
             showLoading();
         }
     }

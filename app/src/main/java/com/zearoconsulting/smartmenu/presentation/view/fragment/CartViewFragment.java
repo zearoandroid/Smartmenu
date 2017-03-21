@@ -59,7 +59,7 @@ public class CartViewFragment extends AbstractDialogFragment {
     FancyButton mBtnSupmit;
     FancyButton mBtnCancel;
     RecyclerView cartListView;
-
+    private TextView mTxtUserName;
     List<KOTLineItems> mKOTLineItemList;
     private DMCartAdapter mCartAdapter;
     private double totalPrice;
@@ -172,6 +172,9 @@ public class CartViewFragment extends AbstractDialogFragment {
         this.mBtnCancel = ((FancyButton) paramView.findViewById(R.id.cancel));
         this.cartListView = ((RecyclerView) paramView.findViewById(R.id.cart_table));
 
+        this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
+        mTxtUserName.setText("Hello "+mAppManager.getUserName());
+
         AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
 
         Tables tables = mDBHelper.getTableData(mAppManager.getClientID(),mAppManager.getOrgID(),AppConstants.tableID);
@@ -260,6 +263,10 @@ public class CartViewFragment extends AbstractDialogFragment {
                             @Override
                             public void run() {
                                 //post data to server
+                                int mAppMode = mAppManager.getAppMode();
+                                if(mAppMode == 0) {
+                                    AppConstants.isPasswordValidated = true;
+                                }
                                 postKOTData();
                             }
                         }, 200);

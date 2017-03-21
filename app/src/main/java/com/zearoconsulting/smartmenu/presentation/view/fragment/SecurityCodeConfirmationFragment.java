@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.view.activity.DM_Login;
@@ -36,6 +37,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 public class SecurityCodeConfirmationFragment extends AbstractDialogFragment{
 
     private static Context context;
+    private TextView mTxtUserName;
     private EditText mEdtUserPassword;
     private FancyButton mBtnSupmit;
     private FancyButton mBtnCancel;
@@ -105,9 +107,12 @@ public class SecurityCodeConfirmationFragment extends AbstractDialogFragment{
             }
         });
 
+        this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
         this.mEdtUserPassword= (EditText) paramView.findViewById(R.id.passwordText);
         this.mBtnSupmit = ((FancyButton) paramView.findViewById(R.id.submit));
         this.mBtnCancel = ((FancyButton) paramView.findViewById(R.id.cancel));
+
+        mTxtUserName.setText("Hello "+mAppManager.getUserName());
 
         // Add an OnTouchListener to the root view.
         this.mBtnCancel.setOnTouchListener(new View.OnTouchListener() {

@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zearoconsulting.smartmenu.AndroidApplication;
@@ -110,8 +111,9 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
             mSearchView.setVisibility(View.VISIBLE);
             //Turn iconified to false:
             //mSearchView.setIconified(false);
+            //setSearchHintIcon(R.drawable.ic_search_black);
             mProductRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mProductRecyclerView.setBackgroundColor(Color.parseColor("#FFEBEDEF"));
+            //mProductRecyclerView.setBackgroundColor(Color.parseColor("#FFEBEDEF"));
             mProductList = mDBHelper.getAllProduct(mAppManager.getClientID(), mAppManager.getOrgID());
         }
 
@@ -222,6 +224,12 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
     public void onSelectedItem(long categoryId, Product product, int position) {
 
         mProduct = product;
+
+        if(mSearchView.getVisibility() == View.VISIBLE) {
+            mSearchView.setQuery("", false);
+            mSearchView.clearFocus();
+        }
+
         if(categoryId!=0) {
             Intent intent = new Intent(Dm_Products.this, DM_SelectedProduct.class);
             //add data to a bundle
@@ -305,5 +313,26 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
             }
         }
         return filteredModelList;
+    }
+
+    private void customizeSearchbox() {
+
+    }
+
+    private void setSearchHintIcon(int resourceId) {
+        try {
+            int searchIconId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
+            /*ImageView searchHintIcon = (ImageView) findViewById(mSearchView,
+                    "android:id/search_button");*/
+            ImageView searchHintIcon = (ImageView) mSearchView.findViewById(searchIconId);
+            searchHintIcon.setImageResource(resourceId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private View findViewById(View v, String id) {
+        return v.findViewById(v.getContext().getResources().
+                getIdentifier(id, null, null));
     }
 }

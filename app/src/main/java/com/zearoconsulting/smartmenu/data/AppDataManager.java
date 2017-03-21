@@ -36,6 +36,7 @@ public class AppDataManager  {
 
     private String mServerAddress;
     private int mServerPort;
+    private int mAppMode;
 
     public AppDataManager(Context context){
 
@@ -58,6 +59,7 @@ public class AppDataManager  {
         mUserPassword = mUserSessionData.getString("password", "");
         isLoggedIn = mUserSessionData.getBoolean("isLoggedIn", false);
         isSalesRep = mUserSessionData.getBoolean("isSalesRep", false);
+        mAppMode = mUserSessionData.getInt("AppMode", -1);
 
         mCashCustomerID = mCashCustomerData.getLong("cashCustomerID", 0);
         mCashCustomerPriceListID = mCashCustomerData.getLong("cashCustomerPriceListID", 0);
@@ -196,6 +198,12 @@ public class AppDataManager  {
         ed.commit();
     }
 
+    public void setAppMode(int mode){
+        SharedPreferences.Editor ed = mUserSessionData.edit();
+        ed.putInt("AppMode", mode);
+        ed.commit();
+    }
+
     /**
      *
      * @param cashCustomerName
@@ -331,6 +339,8 @@ public class AppDataManager  {
     public boolean getUserIsSalesRep(){
         return mUserSessionData.getBoolean("isSalesRep",false);
     }
+
+    public int getAppMode(){ return mUserSessionData.getInt("AppMode", -1); }
 
     /**GET CASH CUSTOMER DATA*/
 
