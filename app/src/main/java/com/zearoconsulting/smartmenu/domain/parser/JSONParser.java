@@ -1228,6 +1228,12 @@ public class JSONParser {
                             product.setProdArabicDescription("");
                         }
 
+                        if (obj.has("prTime")) {
+                            product.setPreparationTime(obj.getString("prTime"));
+                        } else {
+                            product.setPreparationTime("");
+                        }
+
                         if (!imgPath.equalsIgnoreCase(""))
                             mDBHelper.addProductImage(mAppManager.getClientID(), mAppManager.getOrgID(), productId, imgPath, "image");
 

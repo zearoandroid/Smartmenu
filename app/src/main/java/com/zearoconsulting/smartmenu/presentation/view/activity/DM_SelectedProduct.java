@@ -114,6 +114,9 @@ public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, 
     private LinearLayout timeLayout;
     private TextView timeText;
 
+    int hour = 0;
+    int minutes = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +168,9 @@ public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, 
 
         mProduct = mDBHelper.getProduct(mAppManager.getClientID(),mAppManager.getOrgID(),mProductId);
 
+
+
+
         if(AndroidApplication.getLanguage().equalsIgnoreCase("en")) {
             mCategoryButton.setText(mProduct.getProdName());
 
@@ -199,6 +205,22 @@ public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, 
 
             description.setText(mProduct.getProdArabicDescription());
         }
+
+        if(!mProduct.getPreparationTime().equalsIgnoreCase("")){
+            if(mProduct.getPreparationTime().contains(":")) {
+                String[] units = mProduct.getPreparationTime().split(":"); //will break the string up into an array
+                hour = Integer.parseInt(units[0]); //first element
+                minutes = Integer.parseInt(units[1]); //second element
+
+                if(hour!=0 && minutes!=0)
+                    timeText.setText(hour+" Hour "+minutes+" Minutes");
+                else if(hour!=0 && minutes == 0)
+                    timeText.setText(hour+" Hour");
+                else if(hour==0 && minutes!=0)
+                    timeText.setText(minutes+" Minutes");
+            }
+        }
+
 
         mMultiImageList = mDBHelper.getProductImages(mProductId);
         mProduct.setImageList(mMultiImageList);

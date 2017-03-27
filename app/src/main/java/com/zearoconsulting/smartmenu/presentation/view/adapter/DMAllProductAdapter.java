@@ -84,6 +84,7 @@ public class DMAllProductAdapter extends RecyclerView.Adapter<DMAllProductAdapte
             this.desc = (TextView) view.findViewById(R.id.item_description);
             this.price = (Button) view.findViewById(R.id.btn_prod_price);
             this.imageView = (ImageView) view.findViewById(R.id.list_image);
+            this.price.setOnClickListener(this);
             this.mView.setOnClickListener(this);
         }
 

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -49,6 +50,8 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
 
     private FancyButton mBtnSync;
     private List<Category> mCategoryList;
+    // variable to track event time
+    private long mLastClickTime = 0;
 
     final Handler mHandler = new Handler()
     {
@@ -84,6 +87,7 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
                     break;
                 case AppConstants.SERVER_ERROR:
                     mProDlg.dismiss();
+                    mBtnSync.setVisibility(View.VISIBLE);
                     //show the server error dialog
                     Toast.makeText(DM_ManualSync.this,"Server data error",Toast.LENGTH_SHORT).show();
                     break;
@@ -120,7 +124,7 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
         AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
 
         // Add an OnTouchListener to the root view.
-        mBtnSync.setOnTouchListener(new View.OnTouchListener() {
+        /*mBtnSync.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mReboundListener.animateView(mBtnSync);
@@ -140,12 +144,28 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
                                     mDBHelper.deleteSmartMenuTables();
                                     addCategory();
                                     getTables();
+
                                 }
                             }, 200);
 
                         break;
                 }
                 return true;
+            }
+        });*/
+
+        mBtnSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Preventing multiple clicks, using threshold of 1 second
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
+                mDBHelper.deleteSmartMenuTables();
+                addCategory();
+                getTables();
             }
         });
     }
@@ -363,6 +383,7 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
         protected void onPostExecute(String result) {
             mProDlg.dismiss();
             mAppManager.setLoggedIn(true);
+            mBtnSync.setVisibility(View.VISIBLE);
             finish();
         }
 
