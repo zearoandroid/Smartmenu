@@ -12,8 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,18 +26,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
+import com.bumptech.glide.Glide;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.domain.receivers.KOTDataReceiver;
 import com.zearoconsulting.smartmenu.domain.services.KOTService;
 import com.zearoconsulting.smartmenu.domain.services.TableStatusService;
 import com.zearoconsulting.smartmenu.presentation.model.Category;
+import com.zearoconsulting.smartmenu.presentation.model.Organization;
 import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener;
 import com.zearoconsulting.smartmenu.presentation.view.fragment.CartViewFragment;
 import com.zearoconsulting.smartmenu.presentation.view.fragment.FeedbackFragment;
@@ -69,6 +76,7 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
     FragmentManager localFragmentManager;
 
     private int mAppMode;
+    ImageView mLayoutMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,8 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
 
         setContentView(R.layout.activity_dm__menu);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mReboundListener = new ReboundListener();
 
         feedbackButton = (FancyButton) findViewById(R.id.feedbackButton);
@@ -90,12 +100,29 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
         logoutButton = (FancyButton) findViewById(R.id.logoutButton);
         mMenuButton = (Button) findViewById(R.id.menu);
         batteryDisplay = (Button) findViewById(R.id.batteryDisplay);
+        mLayoutMenu = (ImageView) findViewById(R.id.background);
 
         localFragmentManager = getSupportFragmentManager();
         foundFragment = getFragmentManager().findFragmentByTag("TableSelectionFragment");
 
         //mIntent = new Intent(this, TableStatusService.class);
         //this.startService(mIntent);
+
+        //get the image from sdcard and set to background
+
+        Organization organization = mDBHelper.getOrganizationDetail(mAppManager.getOrgID());
+        //Resources res = getResources();
+        //Bitmap bitmaps = BitmapFactory.decodeFile(organization.getOrgImage());
+        //BitmapDrawable bd = new BitmapDrawable(res, bitmaps);
+        //mLayoutMenu.setBackgroundDrawable(bd);
+
+        if(organization==null){
+            Toast.makeText(DM_Menu.this, "Data not available. Please give manual sync.", Toast.LENGTH_LONG).show();
+        }else{
+            Glide.with(DM_Menu.this)
+                    .load(organization.getOrgImage())
+                    .into(mLayoutMenu);
+        }
 
         boolean isAvail = mDBHelper.checkAllCategory();
         if(!isAvail){
@@ -361,6 +388,7 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
             }
         }
 
+        hideSoftKeyboard();
 
     }
 
@@ -448,6 +476,15 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
     public void onBackPressed() {
     }
 
+    /**
+     * Hides the soft keyboard
+     */
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {

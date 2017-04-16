@@ -1,5 +1,6 @@
 package com.zearoconsulting.smartmenu.presentation.view.adapter;
 
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,10 @@ public class DMCartAdapter extends RecyclerView.Adapter<DMCartAdapter.CartItemHo
             holder.btnRemove.setVisibility(View.VISIBLE);
             if(kotModel.getPrinted().equalsIgnoreCase("Y")){
                 holder.btnRemove.setVisibility(View.INVISIBLE);
+            }
+
+            if(kotModel.getIsDeleted().equalsIgnoreCase("Y")){
+                holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
         }catch (Exception e){

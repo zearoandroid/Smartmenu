@@ -342,7 +342,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
 
                                         long kotLineId = mDBHelper.getLastRowId();
 
-                                        mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, product, AddtoCartViewFragment.this.quantity, noteToCart, "N", 0 , "N");
+                                        mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, product, AddtoCartViewFragment.this.quantity, noteToCart, "N", 0 , "N", "N");
 
                                         if (mAddOnAdapter != null && mRelatedProductList.size() != 0) {
                                             List<Product> relatedProductList = mAddOnAdapter.getSelectedProductList();
@@ -350,7 +350,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
                                             for (int i = 0; i < relatedProductList.size(); i++) {
                                                 if (relatedProductList.get(i).getSelected().equalsIgnoreCase("Y")) {
                                                     relatedProductList.get(i).setTerminalId(product.getTerminalId());
-                                                    mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, relatedProductList.get(i), AddtoCartViewFragment.this.quantity, "", "N", kotLineId, "Y");
+                                                    mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, relatedProductList.get(i), AddtoCartViewFragment.this.quantity, "", "N", kotLineId, "Y", "N");
                                                 }
                                             }
                                         }

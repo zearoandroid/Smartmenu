@@ -162,6 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_KOT_LINE_ID = "kotLineId";
     private static final String KEY_KOT_REF_LINE_ID = "kotRefLineId";
     private static final String KEY_KOT_EXTRA_PRODUCT = "isExtraProduct";
+    private static final String KEY_IS_DELETED = "isDeleted";
 
     //create query for TABLE_ORGANIZATION
     private static final String ORGANIZATION_CREATE_QUERY = "CREATE TABLE "
@@ -229,7 +230,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + KEY_PRODUCT_ARABIC_NAME + " TEXT, " + KEY_PRODUCT_VALE + " TEXT, " + KEY_PRODUCT_UOM_ID + " NUMERIC, " + KEY_PRODUCT_UOM_VALUE + " TEXT, "
             + KEY_PRODUCT_STD_PRICE + " NUMERIC, " + KEY_PRODUCT_COST_PRICE + " INTEGER, "
             + KEY_KOT_TERMINAL_ID + " NUMERIC, " + KEY_PRODUCT_QTY + " INTEGER, " + KEY_PRODUCT_TOTAL_PRICE + " NUMERIC, "
-            + KEY_KOT_ITEM_NOTES + " TEXT, " + KEY_IS_PRINTED + " TEXT, " + KEY_KOT_REF_LINE_ID + " NUMERIC, " + KEY_KOT_EXTRA_PRODUCT + " TEXT);";
+            + KEY_KOT_ITEM_NOTES + " TEXT, " + KEY_IS_PRINTED + " TEXT, " + KEY_KOT_REF_LINE_ID + " NUMERIC, " + KEY_KOT_EXTRA_PRODUCT + " TEXT, " + KEY_IS_DELETED + " TEXT);";
 
     private static final String PRODUCT_IMAGES_CREATE_QUERY = "CREATE TABLE "
             + TABLE_PRODUCT_IMAGES + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_CLIENT_ID + " NUMERIC, " + KEY_ORG_ID + " NUMERIC, " + KEY_PRODUCT_ID + " NUMERIC, "

@@ -1,6 +1,7 @@
 package com.zearoconsulting.smartmenu.presentation.view.fragment;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -31,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
+import com.zearoconsulting.smartmenu.data.AppLog;
 import com.zearoconsulting.smartmenu.domain.net.NetworkDataRequestThread;
 import com.zearoconsulting.smartmenu.domain.receivers.KOTDataReceiver;
 import com.zearoconsulting.smartmenu.domain.services.KOTService;
@@ -213,12 +215,11 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         tableListView.setAdapter(mTableAdapter);
 
 
-        /*if(isTableVisible) {
+        //if(isTableVisible) {
             mDBHelper.deleteKOTLineItems(0);
             mDBHelper.updateTableStatusAvailable(0);
-
             updateTableViews();
-        }*/
+        //}
 
         //set the table select listener
         mTableAdapter.setOnTableSelectListener(tableSelectListener);
@@ -246,7 +247,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
     }
 
     private void getTableStatus(){
-        if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
+        if (NetworkUtil.isOnline()) {
             try {
 
                 mProDlg.setMessage("Getting tables status...");
@@ -263,7 +264,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
             }
         } else {
             //show network failure dialog or toast
-            NetworkErrorDialog.buildDialog(getActivity()).show();
+            showNetworkErrorDialog();
         }
     }
 
@@ -307,7 +308,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
             }
         } else {
             //show network failure dialog or toast
-            NetworkErrorDialog.buildDialog(getActivity()).show();
+            showNetworkErrorDialog();
         }
     }
 
@@ -332,6 +333,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
             try {
 
+                AppLog.e("Internet Connection", "Good! Connected to Internet");
                 mTxtTitle.setText("Select Table (Refreshing...)");
 
                 AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
@@ -362,8 +364,35 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                 e.printStackTrace();
             }
         } else {
+            AppLog.e("Internet Connection", "Sorry! Not connected to internet");
             //show network failure dialog or toast
-            NetworkErrorDialog.buildDialog(getActivity()).show();
+            showNetworkErrorDialog();
         }
+    }
+
+    private void showNetworkErrorDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getActivity());
+
+        // set title
+        alertDialogBuilder.setTitle("Warning");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Please Check Your Internet Connection!")
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }

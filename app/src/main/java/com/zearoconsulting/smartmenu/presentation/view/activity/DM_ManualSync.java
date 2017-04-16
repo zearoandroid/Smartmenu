@@ -107,7 +107,7 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_dm__manual_sync);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             // Show the Up button in the action bar.
@@ -163,9 +163,14 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
 
+                FileUtils.deleteImages();
+                FileUtils.deleteVideos();
+
+                mDBHelper.deleteDhukanTables();
                 mDBHelper.deleteSmartMenuTables();
-                addCategory();
-                getTables();
+
+                FragmentManager localFragmentManager = getSupportFragmentManager();
+                LoadingDialogFragment.newInstance(DM_ManualSync.this, mAppManager.getUserName(), mAppManager.getUserPassword()).show(localFragmentManager, "loading");
             }
         });
     }

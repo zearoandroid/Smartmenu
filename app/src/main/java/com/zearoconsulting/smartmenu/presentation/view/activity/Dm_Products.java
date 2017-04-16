@@ -68,7 +68,7 @@ public class Dm_Products extends DMBaseActivity implements SearchView.OnQueryTex
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dm__products);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mReboundListener = new ReboundListener();
 
         Bundle extras = getIntent().getExtras();

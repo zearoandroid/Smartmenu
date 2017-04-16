@@ -11,6 +11,7 @@ import android.util.Log;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
+import com.zearoconsulting.smartmenu.data.AppLog;
 import com.zearoconsulting.smartmenu.data.DBHelper;
 import com.zearoconsulting.smartmenu.data.SMDataSource;
 import com.zearoconsulting.smartmenu.presentation.model.BPartner;
@@ -444,7 +445,11 @@ public class JSONParser {
 
             mDBHelper.updateDefaultTableStatus();
 
+            AppLog.e("PARSER", "STARTED");
+
             if (json.getInt("responseCode") == 200) {
+
+                AppLog.e("PARSER", json.toString());
 
                 jsonArray = json.getJSONArray("tables");
 
@@ -459,6 +464,7 @@ public class JSONParser {
                 }
             }else if (json.getInt("responseCode") == 101) {
                 if(isTableVisible) {
+                    AppLog.e("PARSER", "ALL TABLE IS EMPTY");
                     mDBHelper.deleteKOTLineItems(0);
                     mDBHelper.updateTableStatusAvailable(0);
                 }
@@ -469,6 +475,7 @@ public class JSONParser {
             b.putString("OUTPUT", "");
         } finally {
 
+            AppLog.e("PARSER", "COMPLETED");
             /*if (length == tableIdList.size()) {
                 b.putInt("Type", AppConstants.TABLE_STATUS_RECEIVED);
                 b.putString("OUTPUT", "");
@@ -525,6 +532,13 @@ public class JSONParser {
                         mOrg.setOrgImage(imagePath);
                     } else
                         mOrg.setOrgImage("");
+
+                    if(orgJson.has("orgbgImage")){
+                        String imagePath = FileUtils.storeImage(orgJson.getString("orgbgImage"), orgJson.getLong("orgId"), null);
+                        mOrg.setOrgImage(imagePath);
+                    }else{
+                        mOrg.setOrgImage("");
+                    }
 
                     //checking org phone is available or not
                     if (orgJson.has("orgPhone"))
@@ -843,7 +857,7 @@ public class JSONParser {
                         notes = prodObj.getString("description");
                         mProduct.setTerminalId(terminalId);
 
-                        mDBHelper.addKOTLineItems(prodObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, isPrinted, 0, "N");
+                        mDBHelper.addKOTLineItems(prodObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", 0, "N", prodObj.getString("isDeleted"));
 
                         if(prodObj.has("relatedProductsArray")){
 
@@ -858,7 +872,7 @@ public class JSONParser {
                                 notes = relatedProdObj.getString("description");
                                 mProduct.setTerminalId(terminalId);
 
-                                mDBHelper.addKOTLineItems(relatedProdObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, isPrinted, kotRefLineId, "Y");
+                                mDBHelper.addKOTLineItems(relatedProdObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", kotRefLineId, "Y", prodObj.getString("isDeleted"));
                             }
                         }
                     }

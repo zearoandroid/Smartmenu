@@ -1,6 +1,8 @@
 package com.zearoconsulting.smartmenu.presentation.view.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +71,32 @@ public class DMBaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         AndroidApplication.activityResumed();
+    }
+
+    public void showNetworkErrorDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                AndroidApplication.getAppContext());
+
+        // set title
+        alertDialogBuilder.setTitle("Warning");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Please Check Your Internet Connection!")
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }
 

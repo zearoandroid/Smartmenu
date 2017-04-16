@@ -113,7 +113,7 @@ public class DM_CategoryItems extends DMBaseActivity implements IDMListeners, Ca
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dm__category_items);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mReboundListener = new ReboundListener();
 
         this.context = this;

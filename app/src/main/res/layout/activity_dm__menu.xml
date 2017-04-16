@@ -12,7 +12,6 @@
         android:id="@+id/background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/banner"
         android:scaleType="fitXY" />
 
     <VideoView
@@ -161,6 +160,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_logo"
                     android:layout_gravity="right"
+                    android:visibility="gone"
                     android:shadowColor="@color/black"
                     android:layout_marginRight="11dp"
                     android:layout_marginEnd="11dp" />

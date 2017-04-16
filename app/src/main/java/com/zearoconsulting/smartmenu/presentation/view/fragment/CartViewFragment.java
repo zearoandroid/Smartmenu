@@ -312,10 +312,10 @@ public class CartViewFragment extends AbstractDialogFragment {
                     if(tokenArray.length()!=0){
                         Log.i("KOTJson", mJsonObj.toString());
 
-                        //NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.POST_KOT_DATA);
-                        //thread.start();
+                        NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.POST_KOT_DATA);
+                        thread.start();
 
-                        AndroidApplication.getInstance().cancelPendingRequests(this);
+                        /*AndroidApplication.getInstance().cancelPendingRequests(this);
 
                         AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
                         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
@@ -335,7 +335,7 @@ public class CartViewFragment extends AbstractDialogFragment {
                         );
 
                         // Adding request to request queue
-                        AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);
+                        AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);*/
 
                     }else {
                         AppConstants.tableID = 0;

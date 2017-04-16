@@ -26,6 +26,7 @@ import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener
 import com.zearoconsulting.smartmenu.presentation.view.fragment.LoadingDialogFragment;
 import com.zearoconsulting.smartmenu.presentation.view.fragment.ServerConfigFragment;
 import com.zearoconsulting.smartmenu.utils.Common;
+import com.zearoconsulting.smartmenu.utils.FileUtils;
 
 import java.util.Locale;
 
@@ -54,7 +55,7 @@ public class DM_Login extends DMBaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_dm__login);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mReboundListener = new ReboundListener();
         mEdtUserName= (EditText) findViewById(R.id.usernameText);
         mEdtUserPassword= (EditText) findViewById(R.id.passwordText);
@@ -76,6 +77,8 @@ public class DM_Login extends DMBaseActivity {
 
         //check server address is already available or not
         if(mAppManager.getServerAddress().equals("")){
+            FileUtils.deleteImages();
+            FileUtils.deleteVideos();
             showConfiguration();
         }
 

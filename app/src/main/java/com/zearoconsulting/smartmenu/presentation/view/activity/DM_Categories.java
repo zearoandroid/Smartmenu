@@ -58,6 +58,8 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
 
         setContentView(R.layout.activity_dm_category);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mReboundListener = new ReboundListener();
 
         mBackButton = (FancyButton)findViewById(R.id.back_button);

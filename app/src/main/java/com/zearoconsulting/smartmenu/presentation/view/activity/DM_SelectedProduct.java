@@ -124,7 +124,7 @@ public class DM_SelectedProduct extends DMBaseActivity implements IDMListeners, 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dm__selected_product);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mReboundListener = new ReboundListener();
 
         this.context = this;

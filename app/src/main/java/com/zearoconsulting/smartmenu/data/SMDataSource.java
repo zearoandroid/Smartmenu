@@ -150,6 +150,7 @@ public class SMDataSource {
     private static final String KEY_KOT_LINE_ID = "kotLineId";
     private static final String KEY_KOT_REF_LINE_ID = "kotRefLineId";
     private static final String KEY_KOT_EXTRA_PRODUCT = "isExtraProduct";
+    private static final String KEY_IS_DELETED = "isDeleted";
 
     public SMDataSource(Context context) {
         dbHelper = DBHelper.getInstance(context);
@@ -184,6 +185,7 @@ public class SMDataSource {
             values.put(KEY_ORG_ID, org.getOrgId());
             values.put(KEY_ORG_NAME, org.getOrgName());
             values.put(KEY_ORG_ARABIC_NAME, org.getOrgArabicName());
+            values.put(KEY_ORG_IMAGE, org.getOrgImage());
             values.put(KEY_ORG_ADDRESS, org.getOrgAddress());
             values.put(KEY_ORG_PHONE, org.getOrgPhone());
             values.put(KEY_ORG_EMAIL, org.getOrgEmail());
@@ -1132,7 +1134,7 @@ public class SMDataSource {
      * @param qty
      * @param notes
      */
-    public void addKOTLineItems(long kotLineId, long tableId, long kotNumber, Product product, int qty, String notes, String isPrinted, long rowId, String isExtraProduct) {
+    public void addKOTLineItems(long kotLineId, long tableId, long kotNumber, Product product, int qty, String notes, String isPrinted, long rowId, String isExtraProduct, String isDeleted) {
 
         // It's a good idea to wrap our insert in a transaction. This helps with performance and ensures
         // consistency of the database.
@@ -1191,6 +1193,7 @@ public class SMDataSource {
             values.put(KEY_IS_PRINTED, isPrinted);
             values.put(KEY_KOT_REF_LINE_ID, rowId);
             values.put(KEY_KOT_EXTRA_PRODUCT, isExtraProduct);
+            values.put(KEY_IS_DELETED, isDeleted);
 
             // Inserting Row
             db.insert(TABLE_KOT_LINES, null, values);
@@ -1260,6 +1263,7 @@ public class SMDataSource {
                 kotLineItems.setPrinted(cursor.getString(17));
                 kotLineItems.setRefRowId(cursor.getLong(18));
                 kotLineItems.setIsExtraProduct(cursor.getString(19));
+                kotLineItems.setIsDeleted(cursor.getString(20));
 
                 kotLineItemList.add(kotLineItems);
             }
@@ -1505,6 +1509,7 @@ public class SMDataSource {
             db.execSQL("delete from kotTerminals");
             db.execSQL("delete from category");
             db.execSQL("delete from product");
+            db.execSQL("delete from productNotes");
             db.execSQL("delete from productImages");
             db.execSQL("delete from kotHeader");
             db.execSQL("delete from kotLineItems");
