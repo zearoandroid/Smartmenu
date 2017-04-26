@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.model.Product;
@@ -59,10 +60,14 @@ public class DMBottomProductAdapter extends RecyclerView.Adapter<DMBottomProduct
             if (!model.getProdMultiPathType().equalsIgnoreCase("image")) {
                 Glide.with(mContext)
                         .load(R.drawable.play_icon)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into( holder.imageView);
             }else{
                 Glide.with(mContext)
                         .load(mProductList.get(pos).getProdMultiPath())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into( holder.imageView);
             }
 

@@ -538,6 +538,7 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 mAppManager.setLoggedIn(false);
+                mAppManager.setRemindMe("N");
                 Intent mIntent = new Intent(DM_Menu.this, DM_Login.class);
                 startActivity(mIntent);
                 finish();

@@ -17,7 +17,7 @@ public class AppDataManager  {
 
     //User variables
     private long mUserID, mUserBPID, mClientID, mOrgID, mRoleID, mWarehouseID;
-    private String mUserName, mUserPassword, mRoleName;
+    private String mUserName, mUserPassword, mRoleName, mAppDownloadPath, mRemindMe;
     private boolean isLoggedIn, isSalesRep;
 
     //Cash customer variables
@@ -85,6 +85,8 @@ public class AppDataManager  {
 
         mServerAddress = mServerData.getString("server_name", "");
         mServerPort = mServerData.getInt("server_port", 0);
+        mAppDownloadPath = mServerData.getString("app_path", "");
+        mRemindMe = mServerData.getString("remindMe", "N");
     }
 
     public void saveUserData(long userID,long userBPID,long clientID,long orgID,long roleID, long warehouseID,String username,String password, boolean isSalesRep){
@@ -276,6 +278,26 @@ public class AppDataManager  {
         }
     }
 
+    public void saveAppPath(String appDownloadPath){
+        try {
+            SharedPreferences.Editor ed = mServerData.edit();
+            ed.putString("app_path", appDownloadPath);
+            ed.commit();
+        } catch (NullPointerException npEx) {
+            Log.e("app_path", "Save app_path NullPointer Exception");
+        }
+    }
+
+    public void setRemindMe(String remindMe){
+        try {
+            SharedPreferences.Editor ed = mServerData.edit();
+            ed.putString("remindMe", remindMe);
+            ed.commit();
+        } catch (NullPointerException npEx) {
+            Log.e("remindMe", "Save remindMe NullPointer Exception");
+        }
+    }
+
     /**
      *
      * @param startNo
@@ -437,4 +459,13 @@ public class AppDataManager  {
         return mServerPort;
     }
 
+    public String getAppDownloadPath(){
+        mAppDownloadPath = mServerData.getString("app_path","");
+        return mAppDownloadPath;
+    }
+
+    public String getRemindMeStatus(){
+        mRemindMe = mServerData.getString("remindMe","N");
+        return mRemindMe;
+    }
 }

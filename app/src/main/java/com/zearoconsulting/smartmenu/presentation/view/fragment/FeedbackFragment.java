@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -72,6 +73,10 @@ public class FeedbackFragment extends AbstractDialogFragment{
                     //show the server error dialog
                     Toast.makeText(getActivity(), "Server data error", Toast.LENGTH_SHORT).show();
                     dismiss();
+                    break;
+                case AppConstants.UPDATE_APP:
+                    mProDlg.dismiss();
+                    showAppInstallDialog();
                     break;
                 default:
                     break;
@@ -331,5 +336,18 @@ public class FeedbackFragment extends AbstractDialogFragment{
                 NetworkErrorDialog.buildDialog(getActivity()).show();
             }
         }
+    }
+
+    public void showAppInstallDialog(){
+        try {
+            //show denomination screen
+            FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
+            AppUpdateFragment appUpdateFragment = new AppUpdateFragment();
+            appUpdateFragment.show(localFragmentManager, "AppUpdateFragment");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        dismissAllowingStateLoss();
     }
 }

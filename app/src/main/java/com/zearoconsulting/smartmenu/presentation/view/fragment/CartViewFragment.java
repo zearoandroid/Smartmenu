@@ -106,6 +106,10 @@ public class CartViewFragment extends AbstractDialogFragment {
                     Toast.makeText(getActivity(), "Server data error", Toast.LENGTH_SHORT).show();
                     dismiss();
                     break;
+                case AppConstants.UPDATE_APP:
+                    mProDlg.dismiss();
+                    showAppInstallDialog();
+                    break;
                 default:
                     break;
             }
@@ -368,6 +372,19 @@ public class CartViewFragment extends AbstractDialogFragment {
         // set the new task and clear flags
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+    }
+
+    public void showAppInstallDialog(){
+        try {
+            //show denomination screen
+            FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
+            AppUpdateFragment appUpdateFragment = new AppUpdateFragment();
+            appUpdateFragment.show(localFragmentManager, "AppUpdateFragment");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        dismissAllowingStateLoss();
     }
 
 }

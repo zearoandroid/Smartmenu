@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.model.ProductMultiImage;
@@ -119,6 +120,8 @@ public class DMProductAdapter extends PagerAdapter {
 
             Glide.with(mContext)
                     .load(model.getProdMultiPath())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .override(Common.getDeviceWidth(mContext), 512)
                     .fitCenter()
                     .into(holder.itemImage);

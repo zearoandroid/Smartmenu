@@ -190,6 +190,7 @@ public class SecurityCodeConfirmationFragment extends AbstractDialogFragment{
                 AppConstants.isPasswordValidated = true;
                 mAppManager.setLoggedIn(false);
 
+                mAppManager.setRemindMe("N");
                 myClip = ClipData.newPlainText("text", "");
                 myClipboard.setPrimaryClip(myClip);
 

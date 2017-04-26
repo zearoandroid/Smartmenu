@@ -106,6 +106,9 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                     Toast.makeText(getActivity(), "Server data error", Toast.LENGTH_SHORT).show();
                     dismiss();
                     break;
+                case AppConstants.UPDATE_APP:
+                    showAppInstallDialog();
+                    break;
                 default:
                     break;
             }
@@ -394,5 +397,18 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
 
         // show it
         alertDialog.show();
+    }
+
+    public void showAppInstallDialog(){
+        try {
+            //show denomination screen
+            FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
+            AppUpdateFragment appUpdateFragment = new AppUpdateFragment();
+            appUpdateFragment.show(localFragmentManager, "AppUpdateFragment");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        dismissAllowingStateLoss();
     }
 }

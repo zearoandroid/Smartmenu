@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.data.DBHelper;
@@ -59,6 +60,8 @@ public class DMCategoryItemAdapter extends RecyclerView.Adapter<DMCategoryItemAd
 
         Glide.with(mContext)
                 .load(mProductList.get(pos).getProdImage())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into( holder.imageView);
 
     }

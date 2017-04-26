@@ -1234,7 +1234,7 @@ public class SMDataSource {
         KOTLineItems kotLineItems = null;
 
         try {
-            Cursor cursor = db.rawQuery("select * from kotLineItems where kotTableId='" + tableId + "' and isExtraProduct='N' ", null);
+            Cursor cursor = db.rawQuery("select * from kotLineItems where kotTableId='" + tableId + "' and isExtraProduct='N' and isDeleted='N' ", null);
 
             while (cursor.moveToNext()) {
                 kotLineItems = new KOTLineItems();

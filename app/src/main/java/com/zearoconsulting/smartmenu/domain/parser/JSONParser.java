@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.zearoconsulting.smartmenu.AndroidApplication;
+import com.zearoconsulting.smartmenu.BuildConfig;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.data.AppDataManager;
 import com.zearoconsulting.smartmenu.data.AppLog;
@@ -84,7 +85,8 @@ public class JSONParser {
             mJsonObj.put("orgId", mAppManager.getOrgID());
             mJsonObj.put("warehouseId", mAppManager.getWarehouseID());
             mJsonObj.put("businessPartnerId", mAppManager.getUserBPID());
-            mJsonObj.put("version", 1.0);
+            mJsonObj.put("remindMe", mAppManager.getRemindMeStatus());
+            mJsonObj.put("version", BuildConfig.VERSION_NAME);
             mJsonObj.put("appName", "SmartMenu");
 
             switch (methodType) {
@@ -141,6 +143,9 @@ public class JSONParser {
                     break;
                 case AppConstants.GET_TABLE_KOT_DETAILS:
                     mJsonObj.put("operation", "getTableKot");
+                    break;
+                case AppConstants.CHECK_UPDATE_AVAILABLE:
+                    mJsonObj.put("operation","checkAppUpdate");
                     break;
                 default:
                     break;
@@ -390,6 +395,12 @@ public class JSONParser {
             if (json.getInt("responseCode") == 200) {
                 b.putInt("Type", AppConstants.POST_KOT_DATA_RESPONSE);
                 b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
             } else {
                 b.putInt("Type", AppConstants.SERVER_ERROR);
                 b.putString("OUTPUT", "");
@@ -412,6 +423,12 @@ public class JSONParser {
             json = new JSONObject(jsonStr);
             if (json.getInt("responseCode") == 200) {
                 b.putInt("Type", AppConstants.FEEDBACK_RESPONSE_RECEIVED);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
                 b.putString("OUTPUT", "");
             } else {
                 b.putInt("Type", AppConstants.SERVER_ERROR);
@@ -468,6 +485,12 @@ public class JSONParser {
                     mDBHelper.deleteKOTLineItems(0);
                     mDBHelper.updateTableStatusAvailable(0);
                 }
+            }else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -619,6 +642,12 @@ public class JSONParser {
             } else if (json.getInt("responseCode") == 101) {
                 b.putInt("Type", AppConstants.LOGIN_FAILURE);
                 b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
             } else {
                 b.putInt("Type", AppConstants.NO_DATA_RECEIVED);
                 b.putString("OUTPUT", "");
@@ -653,6 +682,12 @@ public class JSONParser {
                 b.putString("OUTPUT", "");
             } else if (json.getInt("responseCode") == 301) {
                 b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
                 b.putString("OUTPUT", "");
             } else {
                 b.putInt("Type", AppConstants.LOGIN_FAILURE);
@@ -696,6 +731,12 @@ public class JSONParser {
                 b.putString("OUTPUT", "");
             } else if (json.getInt("responseCode") == 301) {
                 b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
                 b.putString("OUTPUT", "");
             } else {
                 b.putInt("Type", AppConstants.NO_DATA_RECEIVED);
@@ -741,6 +782,12 @@ public class JSONParser {
 
                     tableList.add(tables);
                 }
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
             } else if (json.getInt("responseCode") == 301) {
                 b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
                 b.putString("OUTPUT", "");
@@ -754,10 +801,9 @@ public class JSONParser {
             if (length == tableList.size()) {
                 b.putInt("Type", AppConstants.TABLES_RECEIVED);
                 b.putString("OUTPUT", "");
-
+            }
                 msg.setData(b);
                 mHandler.sendMessage(msg);
-            }
         }
     }
 
@@ -791,6 +837,12 @@ public class JSONParser {
 
                     terminalsList.add(terminals);
                 }
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
             } else if (json.getInt("responseCode") == 301) {
                 b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
                 b.putString("OUTPUT", "");
@@ -804,10 +856,9 @@ public class JSONParser {
             if (length == terminalsList.size()) {
                 b.putInt("Type", AppConstants.TERMINALS_RECEIVED);
                 b.putString("OUTPUT", "");
-
+            }
                 msg.setData(b);
                 mHandler.sendMessage(msg);
-            }
         }
     }
 
@@ -888,6 +939,12 @@ public class JSONParser {
             } else if (json.getInt("responseCode") == 101) {
                 mDBHelper.deleteKOTLineItems(AppConstants.tableID);
                 b.putInt("Type", AppConstants.TABLE_KOT_DETAILS_RECEIVED);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
                 b.putString("OUTPUT", "");
             }
         } catch (Exception e) {
@@ -1113,6 +1170,12 @@ public class JSONParser {
                 } else if (json.getInt("responseCode") == 301) {
                     b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
                     b.putString("OUTPUT", "");
+                } else if (json.getInt("responseCode") == 1000) {
+                    if(json.has("appDownloadPath"))
+                        mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                    b.putInt("Type", AppConstants.UPDATE_APP);
+                    b.putString("OUTPUT", "");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1123,10 +1186,9 @@ public class JSONParser {
                 if (length == categoryList.size()) {
                     b.putInt("Type", AppConstants.CATEGORY_RECEIVED);
                     b.putString("OUTPUT", "");
-
+                }
                     msg.setData(b);
                     mHandler.sendMessage(msg);
-                }
             }
         }
     }
@@ -1279,12 +1341,19 @@ public class JSONParser {
                             addProductsNotes(obj.getJSONArray("productsNotesArray"), productId);
                         }
                     }
-
+                    b.putInt("Type", AppConstants.PRODUCTS_RECEIVED);
+                    b.putString("OUTPUT", "");
                 } else if (json.getInt("responseCode") == 301) {
                     b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
                     b.putString("OUTPUT", "");
                 } else if (json.getInt("responseCode") == 101) {
                     b.putInt("Type", AppConstants.SERVER_ERROR);
+                    b.putString("OUTPUT", "");
+                } else if (json.getInt("responseCode") == 1000) {
+                    if(json.has("appDownloadPath"))
+                        mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                    b.putInt("Type", AppConstants.UPDATE_APP);
                     b.putString("OUTPUT", "");
                 }
             } catch (Exception e) {
@@ -1293,13 +1362,47 @@ public class JSONParser {
                 b.putString("OUTPUT", "");
             } finally {
                 //if (length == productList.size()) {
-                    b.putInt("Type", AppConstants.PRODUCTS_RECEIVED);
-                    b.putString("OUTPUT", "");
+
                 //}
 
                 msg.setData(b);
                 mHandler.sendMessage(msg);
             }
         }
+    }
+
+    public void parseAppUpdateAvailable(String jsonStr, Handler mHandler) {
+        Log.i("RESPONSE", jsonStr);
+        Message msg = new Message();
+        JSONObject json;
+        try {
+            json = new JSONObject(jsonStr);
+            if (json.getInt("responseCode") == 200) {
+                b.putInt("Type", AppConstants.NO_UPDATE_AVAILABLE);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 301) {
+                b.putInt("Type", AppConstants.DEVICE_NOT_REGISTERED);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 700) {
+                b.putInt("Type", AppConstants.NETWORK_ERROR);
+                b.putString("OUTPUT", "");
+            } else if (json.getInt("responseCode") == 1000) {
+                if(json.has("appDownloadPath"))
+                    mAppManager.saveAppPath(json.getString("appDownloadPath"));
+
+                b.putInt("Type", AppConstants.UPDATE_APP);
+                b.putString("OUTPUT", "");
+            } else {
+                b.putInt("Type", AppConstants.SERVER_ERROR);
+                b.putString("OUTPUT", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            b.putInt("Type", AppConstants.SERVER_ERROR);
+            b.putString("OUTPUT", "");
+        }
+
+        msg.setData(b);
+        mHandler.sendMessage(msg);
     }
 }
