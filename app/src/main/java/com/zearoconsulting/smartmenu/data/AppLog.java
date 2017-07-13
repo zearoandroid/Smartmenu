@@ -72,6 +72,7 @@ public class AppLog {
                     true));
             buf.append(TAG+" "+df.format(new Date())+"  " + msg );
             buf.newLine();
+
             buf.close();
         } catch (IOException e) {
             e.printStackTrace();

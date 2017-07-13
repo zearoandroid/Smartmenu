@@ -39,11 +39,14 @@ import com.zearoconsulting.smartmenu.utils.NetworkUtil;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+
+import static com.zearoconsulting.smartmenu.utils.FileUtils.deleteDir;
 
 
 public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiver.ConnectivityReceiverListener{
@@ -169,6 +172,8 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
                 mDBHelper.deleteDhukanTables();
                 mDBHelper.deleteSmartMenuTables();
 
+                clearCache();
+
                 FragmentManager localFragmentManager = getSupportFragmentManager();
                 LoadingDialogFragment.newInstance(DM_ManualSync.this, mAppManager.getUserName(), mAppManager.getUserPassword()).show(localFragmentManager, "loading");
             }
@@ -188,6 +193,13 @@ public class DM_ManualSync extends DMBaseActivity implements  ConnectivityReceiv
             default:
                 return false;
         }
+    }
+
+    private void clearCache() {
+        try {
+            File dir = DM_ManualSync.this.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {}
     }
 
     private void addCategory(){
