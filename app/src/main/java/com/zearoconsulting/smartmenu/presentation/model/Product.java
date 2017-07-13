@@ -40,6 +40,7 @@ public class Product implements Serializable {
     private long rowId;
     private long tableId;
     private long kotLineId;
+    private long coverId;
 
     public long getRowId() {
         return rowId;
@@ -279,5 +280,13 @@ public class Product implements Serializable {
 
     public void setPreparationTime(String preparationTime) {
         this.preparationTime = preparationTime;
+    }
+
+    public long getCoverId() {
+        return coverId;
+    }
+
+    public void setCoverId(long coverId) {
+        this.coverId = coverId;
     }
 }

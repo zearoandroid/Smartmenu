@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.model.Category;
 import com.zearoconsulting.smartmenu.presentation.model.KOTLineItems;
@@ -54,7 +55,7 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Set the animation for page navigation
-       // overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
+        // overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
 
         setContentView(R.layout.activity_dm_category);
 
@@ -62,19 +63,19 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
 
         mReboundListener = new ReboundListener();
 
-        mBackButton = (FancyButton)findViewById(R.id.back_button);
+        mBackButton = (FancyButton) findViewById(R.id.back_button);
         mCartButton = (FancyButton) findViewById(R.id.cart_button);
         mCartNumber = (TextView) findViewById(R.id.cart_number);
-        mCategoryRecyclerView = (RecyclerView)findViewById(R.id.recycler_view_category);
+        mCategoryRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_category);
         mCategoryRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         spanCount = 3;
         spacing = 40;
         boolean includeEdge = true;
         mCategoryRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
-        mCategoryList = mDBHelper.getDMCategory(mAppManager.getClientID(),mAppManager.getOrgID());
+        mCategoryList = mDBHelper.getDMCategory(mAppManager.getClientID(), mAppManager.getOrgID());
 
-        List<Product> productList = mDBHelper.getAllProduct(mAppManager.getClientID(),mAppManager.getOrgID());
+        List<Product> productList = mDBHelper.getAllProduct(mAppManager.getClientID(), mAppManager.getOrgID());
 
         if (mCategoryList != null) {
             if (mCategoryAdapter == null && mCategoryList.size() != 0) {
@@ -86,7 +87,7 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
 
         if (mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
             mCartButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mCartButton.setVisibility(View.GONE);
         }
 
@@ -134,7 +135,7 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
                         mSpring.setEndValue(0);
                         mKOTLineItemList = mDBHelper.getKOTLineItems(AppConstants.tableID);
 
-                        if(mKOTLineItemList.size()!=0){
+                        if (mKOTLineItemList.size() != 0) {
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -175,10 +176,10 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
     @Override
     public void onSelectedCategory(Category category) {
         mCategoryId = category.getCategoryId();
-        if(mCategoryId == 0)
+        if (mCategoryId == 0)
             mIntent = new Intent(DM_Categories.this, Dm_Products.class);
         else
-        mIntent = new Intent(DM_Categories.this, Dm_Products.class);
+            mIntent = new Intent(DM_Categories.this, Dm_Products.class);
 
         //add data to a bundle
         Bundle extras = new Bundle();
@@ -201,7 +202,8 @@ public class DM_Categories extends DMBaseActivity implements IDMListeners, CartV
     }
 
     public void refreshCartNumber() {
-        int qty = mDBHelper.sumOfCartItems(AppConstants.tableID);
+        int qty = mDBHelper.sumOfCartItemsFromCover(AndroidApplication.getInstance().getSelectedCoverList());
+        //int qty = mDBHelper.sumOfCartItems(AppConstants.tableID);
         if (qty > 0) {
             mCartNumber.setVisibility(View.VISIBLE);
             mCartNumber.setText(String.valueOf(qty));

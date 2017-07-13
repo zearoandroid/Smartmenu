@@ -55,7 +55,6 @@
                 android:paddingLeft="4dp"
                 android:gravity="center_vertical|center"
                 android:hint="@string/hint_server_address"
-                fontPath="fonts/GothamRounded-Book.otf"
                 android:textSize="@dimen/activity_login_text_size" />
 
             <EditText
@@ -70,7 +69,6 @@
                 android:ems="10"
                 android:gravity="center_vertical|center"
                 android:hint="@string/hint_port"
-                fontPath="fonts/GothamRounded-Book.otf"
                 android:inputType="number"
                 android:maxLines="1"
                 android:paddingLeft="4dp"
@@ -86,7 +84,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_border_button"
                 android:text="@string/btnConnect"
-                fontPath="fonts/GothamRounded-Medium.otf"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/activity_login_text_size" />
@@ -98,7 +95,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="20dp"
-                fontPath="fonts/GothamRounded-Book.otf"
                 android:textColor="@color/white"
                 android:textSize="@dimen/activity_login_label_size" />
 

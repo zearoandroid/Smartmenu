@@ -14,6 +14,7 @@ public class KOTHeader implements Serializable {
     private long terminalId;
     private double totalAmount;
     private String status;
+    private String coversDetails;
 
     public long getTablesId() {
         return tablesId;
@@ -61,6 +62,14 @@ public class KOTHeader implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCoversDetails() {
+        return coversDetails;
+    }
+
+    public void setCoversDetails(String coversDetails) {
+        this.coversDetails = coversDetails;
     }
 
 }

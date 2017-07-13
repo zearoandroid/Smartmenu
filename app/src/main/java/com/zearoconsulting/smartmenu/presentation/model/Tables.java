@@ -12,6 +12,9 @@ public class Tables implements Serializable {
     private String tableName;
     private long clientId;
     private long orgId;
+    private String isCoversLevel;
+    private long tableGroupId;
+    private int orderGroup;
 
     public String getOrderAvailable() {
         return orderAvailable;
@@ -53,6 +56,30 @@ public class Tables implements Serializable {
 
     public void setOrgId(long orgId) {
         this.orgId = orgId;
+    }
+
+    public String getIsCoversLevel() {
+        return isCoversLevel;
+    }
+
+    public void setIsCoversLevel(String isCoversLevel) {
+        this.isCoversLevel = isCoversLevel;
+    }
+
+    public long getTableGroupId() {
+        return tableGroupId;
+    }
+
+    public void setTableGroupId(long tableGroupId) {
+        this.tableGroupId = tableGroupId;
+    }
+
+    public int getOrderGroup() {
+        return orderGroup;
+    }
+
+    public void setOrderGroup(int orderGroup) {
+        this.orderGroup = orderGroup;
     }
 
 }

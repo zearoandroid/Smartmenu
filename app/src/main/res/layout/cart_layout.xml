@@ -4,9 +4,9 @@
     android:id="@id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minWidth="600dp"
+    android:background="#cfcfcf"
     android:minHeight="350dp"
-    android:background="#cfcfcf">
+    android:minWidth="600dp">
 
 
     <LinearLayout
@@ -27,20 +27,32 @@
                 android:padding="10.0dip"
                 android:text="@string/cart"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20.0dip" />
+                android:textSize="20.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/selected_covers"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:gravity="center"
+                android:padding="10.0dip"
+                android:text="@string/cart"
+                android:textColor="@color/white"
+                android:textSize="15.0dip"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/title"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/selected_covers"
                 android:padding="10.0dip"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -57,10 +69,10 @@
             android:gravity="right"
             android:padding="10.0dip"
             android:text=""
-            android:visibility="visible"
-            android:textSize="20sp"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,35 +84,35 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/submit"
+                fontPath="fonts/fontawesome-webfont.ttf"
                 android:layout_width="150.0dip"
                 android:layout_height="65.0dip"
                 fancy:fb_borderColor="@color/purplelight"
                 fancy:fb_borderWidth="1dp"
                 fancy:fb_defaultColor="#ffffffff"
-                fontPath="fonts/fontawesome-webfont.ttf"
-                fancy:fb_iconPosition="left"
-                fancy:fb_textSize="20sp"
-                fancy:fb_textColor="@color/purplelight"
                 fancy:fb_ghost="true"
+                fancy:fb_iconPosition="left"
                 fancy:fb_radius="2.0dip"
-                fancy:fb_text="@string/submit"/>
+                fancy:fb_text="@string/submit"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_textSize="20sp" />
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/cancel"
+                fontPath="fonts/fontawesome-webfont.ttf"
                 android:layout_width="150.0dip"
                 android:layout_height="65.0dip"
-                android:layout_marginStart="15.0dip"
                 android:layout_marginLeft="15.0dip"
+                android:layout_marginStart="15.0dip"
                 fancy:fb_borderColor="@color/purplelight"
                 fancy:fb_borderWidth="1dp"
                 fancy:fb_defaultColor="#ffffffff"
-                fontPath="fonts/fontawesome-webfont.ttf"
-                fancy:fb_iconPosition="left"
-                fancy:fb_textSize="20sp"
-                fancy:fb_textColor="@color/purplelight"
                 fancy:fb_ghost="true"
+                fancy:fb_iconPosition="left"
                 fancy:fb_radius="2.0dip"
-                fancy:fb_text="@string/close" />
+                fancy:fb_text="@string/close"
+                fancy:fb_textColor="@color/purplelight"
+                fancy:fb_textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

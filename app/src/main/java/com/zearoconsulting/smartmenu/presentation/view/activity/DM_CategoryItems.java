@@ -352,7 +352,8 @@ public class DM_CategoryItems extends DMBaseActivity implements IDMListeners, Ca
     }
 
     public void refreshCartNumber() {
-        int qty = mDBHelper.sumOfCartItems(AppConstants.tableID);
+        //int qty = mDBHelper.sumOfCartItems(AppConstants.tableID);
+        int qty = mDBHelper.sumOfCartItemsFromCover(AndroidApplication.getInstance().getSelectedCoverList());
         if (qty > 0) {
             mCartNumber.setVisibility(View.VISIBLE);
             mCartNumber.setText(String.valueOf(qty));

@@ -136,10 +136,38 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addOnLayout"
+        android:id="@+id/coverOfLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coverOfTitle"
+            fontPath="fonts/fontawesome-webfont.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purplelight"
+            android:text="@string/selectCover"
+            android:textColor="@color/white"
+            android:padding="3dp"
+            android:textStyle="bold"
+            android:textSize="20.0dip" />
+
+        <Spinner
+            android:id="@+id/spnCovers"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addOnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coverOfLayout"
         android:layout_margin="10dp"
         android:orientation="vertical">
 

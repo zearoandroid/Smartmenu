@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,9 +25,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.zearoconsulting.smartmenu.AndroidApplication;
 import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.model.Notes;
 import com.zearoconsulting.smartmenu.presentation.model.Product;
+import com.zearoconsulting.smartmenu.presentation.model.Tables;
 import com.zearoconsulting.smartmenu.presentation.presenter.AddCartListener;
 import com.zearoconsulting.smartmenu.presentation.view.activity.DM_CategoryItems;
 import com.zearoconsulting.smartmenu.presentation.view.activity.DM_SelectedProduct;
@@ -37,6 +40,7 @@ import com.zearoconsulting.smartmenu.presentation.view.component.GridSpacingItem
 import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener;
 import com.zearoconsulting.smartmenu.utils.AppConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -57,6 +61,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
     TextView addNote;
     EditText note;
     Spinner mSpnNotes;
+    Spinner mSpnCovers;
     FancyButton buttonAdd;
     FancyButton buttonCancel;
     FancyButton buttonDown;
@@ -69,15 +74,19 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
     List<Product> mRelatedProductList;
     List<Notes> notesList;
     List<String> mNotesList;
+
+    ArrayList<Long> mCoversIDList;
+    ArrayList<String> mCoversNameList;
+
     NotesAdapter mNotesAdapter;
     AddOnAdapter mAddOnAdapter;
     private RecyclerView mRelatedProductView;
     private RecyclerView mNotesSelectionView;
     private Product product;
-    private String noteToCart="";
+    private String noteToCart = "";
     private int quantity;
     private double totalPrice;
-    private String selectedNotes="";
+    private String selectedNotes = "";
 
     private String page = "ProductDetail";
 
@@ -108,7 +117,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
         mReboundListener = new ReboundListener();
 
         Bundle bundle = getArguments();
-        if(bundle!=null){
+        if (bundle != null) {
             page = bundle.getString("Page");
         }
 
@@ -166,6 +175,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
         this.imageOfFood = ((ImageView) paramView.findViewById(R.id.foodImage));
         this.relativeLayout = ((RelativeLayout) paramView.findViewById(R.id.RelativeLayout1));
         mSpnNotes = ((Spinner) paramView.findViewById(R.id.spnNotes));
+        mSpnCovers = ((Spinner) paramView.findViewById(R.id.spnCovers));
 
         mRelatedProductView = ((RecyclerView) paramView.findViewById(R.id.addOnSelectionView));
         mNotesSelectionView = ((RecyclerView) paramView.findViewById(R.id.notesSelectionView));
@@ -175,9 +185,9 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
         mAddOnLayout.setVisibility(View.GONE);
         mChoiceOfLayout.setVisibility(View.GONE);
 
-        if(page.equalsIgnoreCase("ProductDetail")){
+        if (page.equalsIgnoreCase("ProductDetail")) {
             product = ((DM_SelectedProduct) getActivity()).getCurrentItem();
-        }else{
+        } else {
             product = ((Dm_Products) getActivity()).getCurrentItem();
         }
 
@@ -191,7 +201,7 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
 
         this.foodName.setText(this.product.getProdName());
         this.foodDesc.setText(this.product.getDescription());
-        this.foodPrice.setText(AppConstants.currencyCode+" "+String.valueOf(this.product.getSalePrice()));
+        this.foodPrice.setText(AppConstants.currencyCode + " " + String.valueOf(this.product.getSalePrice()));
 
         this.totalPrice = this.product.getSalePrice();
 
@@ -248,16 +258,27 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
             mNotesList = mDBHelper.getNotesList(mAppManager.getClientID(), mAppManager.getOrgID(), product.getProdId());
 
             // Creating adapter for spinner
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, mNotesList);
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mNotesList);
 
             // Drop down layout style - list view with radio button
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             // attaching data adapter to spinner
             mSpnNotes.setAdapter(dataAdapter);
+
+        }
+        List<Tables> mCoversList = mDBHelper.getSelectedCovers(mAppManager.getClientID(), mAppManager.getOrgID(), AppConstants.tableID, AndroidApplication.getInstance().getSelectedCoverList());
+        mCoversIDList = new ArrayList<>();
+        mCoversNameList = new ArrayList<>();
+        for (Tables tables : mCoversList) {
+            mCoversIDList.add(tables.getTableId());
+            mCoversNameList.add(tables.getTableName());
         }
 
-
+        ArrayAdapter<String> coverAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mCoversNameList);
+        coverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpnCovers.setAdapter(coverAdapter);
+        mSpnCovers.setSelection(0);
 
         // Add an OnTouchListener to the root view.
         this.buttonCancel.setOnTouchListener(new View.OnTouchListener() {
@@ -307,22 +328,22 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
                                 try {
                                     if (AppConstants.tableID != 0 && !isAddTabed) {
 
-                                        StringBuilder sbExtras=new StringBuilder();
+                                        StringBuilder sbExtras = new StringBuilder();
 
                                         if (mAddOnAdapter != null && mRelatedProductList.size() != 0) {
                                             List<Product> relatedProductList = mAddOnAdapter.getSelectedProductList();
 
                                             for (int i = 0; i < relatedProductList.size(); i++) {
                                                 if (relatedProductList.get(i).getSelected().equalsIgnoreCase("Y")) {
-                                                    sbExtras.append(relatedProductList.get(i).getProdName()+", ");
+                                                    sbExtras.append(relatedProductList.get(i).getProdName() + ", ");
                                                 }
                                             }
                                         }
 
-                                        if(sbExtras.toString().length()!=0)
-                                        noteToCart = sbExtras.toString();
+                                        if (sbExtras.toString().length() != 0)
+                                            noteToCart = sbExtras.toString();
 
-                                        if(selectedNotes.equalsIgnoreCase("Choose one"))
+                                        if (selectedNotes.equalsIgnoreCase("Choose one"))
                                             selectedNotes = "";
 
                                         if (mNotesAdapter != null && notesList.size() != 0) {
@@ -332,17 +353,17 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
                                                 noteToCart = noteToCart + selectedNotes;
                                             else if (AddtoCartViewFragment.this.note.getText().toString().trim().length() != 0 && selectedNotes.length() == 0)
                                                 noteToCart = noteToCart + AddtoCartViewFragment.this.note.getText().toString();
-                                        }else {
+                                        } else {
                                             noteToCart = noteToCart + AddtoCartViewFragment.this.note.getText().toString();
                                         }
 
-                                        if(noteToCart.length()!=0)
+                                        if (noteToCart.length() != 0)
                                             if (noteToCart.endsWith(","))
                                                 noteToCart = noteToCart.substring(0, noteToCart.length() - 1);
 
                                         long kotLineId = mDBHelper.getLastRowId();
-
-                                        mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, product, AddtoCartViewFragment.this.quantity, noteToCart, "N", 0 , "N", "N");
+                                        long mSelectedID = mCoversIDList.get(mSpnCovers.getSelectedItemPosition());
+                                        mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, product, AddtoCartViewFragment.this.quantity, noteToCart, "N", 0, "N", "N", mSelectedID);
 
                                         if (mAddOnAdapter != null && mRelatedProductList.size() != 0) {
                                             List<Product> relatedProductList = mAddOnAdapter.getSelectedProductList();
@@ -350,23 +371,23 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
                                             for (int i = 0; i < relatedProductList.size(); i++) {
                                                 if (relatedProductList.get(i).getSelected().equalsIgnoreCase("Y")) {
                                                     relatedProductList.get(i).setTerminalId(product.getTerminalId());
-                                                    mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, relatedProductList.get(i), AddtoCartViewFragment.this.quantity, "", "N", kotLineId, "Y", "N");
+                                                    mDBHelper.addKOTLineItems(kotLineId, AppConstants.tableID, 0, relatedProductList.get(i), AddtoCartViewFragment.this.quantity, "", "N", kotLineId, "Y", "N", mSelectedID);
                                                 }
                                             }
                                         }
 
                                         isAddTabed = true;
                                         AddtoCartViewFragment.this.dismissAllowingStateLoss();
-                                        if(page.equalsIgnoreCase("ProductDetail")){
+                                        if (page.equalsIgnoreCase("ProductDetail")) {
                                             ((DM_SelectedProduct) AddtoCartViewFragment.this.getActivity()).refreshCartNumber();
-                                        }else{
+                                        } else {
                                             ((Dm_Products) AddtoCartViewFragment.this.getActivity()).refreshCartNumber();
                                         }
                                     } else {
                                         AddtoCartViewFragment.this.dismiss();
-                                        if(page.equalsIgnoreCase("ProductDetail")){
+                                        if (page.equalsIgnoreCase("ProductDetail")) {
                                             ((DM_SelectedProduct) AddtoCartViewFragment.this.getActivity()).gotoMenuPage();
-                                        }else{
+                                        } else {
                                             ((Dm_Products) AddtoCartViewFragment.this.getActivity()).gotoMenuPage();
                                         }
                                     }
@@ -397,10 +418,10 @@ public class AddtoCartViewFragment extends AbstractDialogFragment implements Ada
     private void updateTotal(Product productEntity, boolean isChecked) {
         if (isChecked) {
             this.totalPrice = this.totalPrice + productEntity.getSalePrice();
-            this.foodPrice.setText(AppConstants.currencyCode+" "+String.valueOf(this.totalPrice));
+            this.foodPrice.setText(AppConstants.currencyCode + " " + String.valueOf(this.totalPrice));
         } else {
             this.totalPrice = this.totalPrice - productEntity.getSalePrice();
-            this.foodPrice.setText(AppConstants.currencyCode+" "+String.valueOf(this.totalPrice));
+            this.foodPrice.setText(AppConstants.currencyCode + " " + String.valueOf(this.totalPrice));
         }
     }
 }

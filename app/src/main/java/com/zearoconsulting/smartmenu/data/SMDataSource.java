@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.zearoconsulting.smartmenu.presentation.model.Category;
+import com.zearoconsulting.smartmenu.presentation.model.KOTHeader;
 import com.zearoconsulting.smartmenu.presentation.model.KOTLineItems;
 import com.zearoconsulting.smartmenu.presentation.model.Notes;
 import com.zearoconsulting.smartmenu.presentation.model.Organization;
@@ -16,6 +19,7 @@ import com.zearoconsulting.smartmenu.presentation.model.Tables;
 import com.zearoconsulting.smartmenu.presentation.model.Terminals;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -152,6 +156,11 @@ public class SMDataSource {
     private static final String KEY_KOT_EXTRA_PRODUCT = "isExtraProduct";
     private static final String KEY_IS_DELETED = "isDeleted";
 
+    private static final String KEY_IS_COVERS_LEVEL = "isCoversLevel";
+    private static final String KEY_M_TABLE_GROUP_ID = "m_table_group_id";
+    private static final String KEY_COVERS_DETAILS = "covers_details";
+    private static final String KEY_M_TABLES_ID = "m_tables_id";
+
     public SMDataSource(Context context) {
         dbHelper = DBHelper.getInstance(context);
     }
@@ -164,8 +173,8 @@ public class SMDataSource {
         dbHelper.close();
     }
 
-    public SQLiteDatabase getDb(){
-        return  db;
+    public SQLiteDatabase getDb() {
+        return db;
     }
 
     //******************** POS MASTER RELATED STUFF'S METHODS (ORG, ROLE, WAREHOUSE, BPARTNER, CATEGORY, PRODUCT, AUTHORIZE) ***********************************//
@@ -354,7 +363,9 @@ public class SMDataSource {
             mCount.close();
 
             if (tableId != 0) {
-                String strSQL = "update kotTables set kotTableName='" + tables.getTableName() + "', isOrderAvailable='" + tables.getOrderAvailable() + "' ;";
+                String strSQL = "update kotTables set kotTableName='" + tables.getTableName()
+                        + "', isOrderAvailable='" + tables.getOrderAvailable()
+                        + "', m_table_group_id='" + tables.getTableGroupId() + "';";
                 db.execSQL(strSQL);
             } else {
                 ContentValues values = new ContentValues();
@@ -363,6 +374,8 @@ public class SMDataSource {
                 values.put(KEY_KOT_TABLE_ID, tables.getTableId());
                 values.put(KEY_KOT_TABLE_NAME, tables.getTableName());
                 values.put(KEY_IS_ORDER_AVAILABLE, tables.getOrderAvailable());
+                values.put(KEY_IS_COVERS_LEVEL, tables.getIsCoversLevel());
+                values.put(KEY_M_TABLE_GROUP_ID, tables.getTableGroupId());
 
                 // Inserting Row
                 db.insert(TABLE_KOT_TABLE, null, values);
@@ -635,7 +648,8 @@ public class SMDataSource {
         Tables table = null;
 
         try {
-            Cursor cursor = db.rawQuery("select kotTableId, kotTableName, isOrderAvailable from kotTables where clientId = '" + clientId + "' and orgId = '" + orgId + "' ORDER BY kotTableId ASC", null);
+            Cursor cursor = db.rawQuery("select kotTableId, kotTableName, isOrderAvailable from kotTables where " +
+                    "clientId = '" + clientId + "' and orgId = '" + orgId + "' and isCoversLevel = 'N' ORDER BY kotTableId ASC", null);
 
             while (cursor.moveToNext()) {
                 table = new Tables();
@@ -652,6 +666,79 @@ public class SMDataSource {
 
         return tableList;
     }
+
+    public List<Tables> getCovers(long clientId, long orgId, long tableGroupId) {
+
+        List<Tables> tableList = new ArrayList<Tables>();
+        Tables table = null;
+
+        try {
+            Cursor cursor = db.rawQuery("select kotTableId, kotTableName, isOrderAvailable from kotTables where " +
+                    "clientId = '" + clientId + "' and orgId = '" + orgId + "' and m_table_group_id = '" + tableGroupId + "' and isCoversLevel = 'Y' ORDER BY kotTableId ASC", null);
+
+            while (cursor.moveToNext()) {
+                table = new Tables();
+                table.setTableId(cursor.getLong(0));
+                table.setTableName(cursor.getString(1));
+                table.setOrderAvailable(cursor.getString(2));
+                table.setOrderGroup(0);
+                tableList.add(table);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return tableList;
+    }
+
+    public List<Long> getCoverIDs(long clientId, long orgId, long tableGroupId) {
+
+        List<Long> tableList = new ArrayList<>();
+
+        try {
+            Cursor cursor = db.rawQuery("select kotTableId from kotTables where " +
+                    "clientId = '" + clientId + "' and orgId = '" + orgId + "' and m_table_group_id = '" + tableGroupId + "' and isCoversLevel = 'Y' ORDER BY kotTableId ASC", null);
+
+            while (cursor.moveToNext()) {
+                tableList.add(cursor.getLong(0));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return tableList;
+    }
+
+    public List<Tables> getSelectedCovers(long clientId, long orgId, long tableGroupId, ArrayList<Long> selectedCoverList) {
+
+        List<Tables> tableList = new ArrayList<Tables>();
+        Tables table = null;
+        try {
+            for (long selectedCover : selectedCoverList) {
+                String qry = "select kotTableId, kotTableName, isOrderAvailable from kotTables where " +
+                        "clientId = '" + clientId + "' and orgId = '" + orgId + "' and isCoversLevel = 'Y' and kotTableId = '" + selectedCover + "' ORDER BY kotTableId ASC";
+                Cursor cursor = db.rawQuery(qry, null);
+                Log.i("Query", qry);
+                while (cursor.moveToNext()) {
+                    table = new Tables();
+                    table.setTableId(cursor.getLong(0));
+                    table.setTableName(cursor.getString(1));
+                    table.setOrderAvailable(cursor.getString(2));
+                    tableList.add(table);
+                }
+                cursor.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return tableList;
+    }
+
 
     public Tables getTableData(long clientId, long orgId, long tableId) {
 
@@ -676,6 +763,26 @@ public class SMDataSource {
     }
 
     public List<Long> getTableIds(long clientId, long orgId) {
+        long tableId = 0;
+        List<Long> mTableIdList = null;
+
+        try {
+            //Cursor cursor = db.rawQuery("select kotTableId from kotLineItems where clientId = '"+clientId+"' and orgId = '" + orgId + "' GROUP BY kotTableId ", null);
+            Cursor cursor = db.rawQuery("select kotTableId from kotLineItems GROUP BY kotTableId ", null);
+
+            mTableIdList = new ArrayList<Long>();
+            while (cursor.moveToNext()) {
+                mTableIdList.add(cursor.getLong(0));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return mTableIdList;
+    }
+
+    public List<Long> getCoversIds(long clientId, long orgId) {
         long tableId = 0;
         List<Long> mTableIdList = null;
 
@@ -741,7 +848,7 @@ public class SMDataSource {
                 if (cnt > 0)
                     categoryList.add(category);
 
-                if(cursor.getLong(0)==0)
+                if (cursor.getLong(0) == 0)
                     categoryList.add(category);
             }
             cursor.close();
@@ -1033,7 +1140,7 @@ public class SMDataSource {
 
         boolean isAvail = false;
 
-        try{
+        try {
             Cursor mCount = db.rawQuery("select categoryName from category where categoryId='" + 0 + "'", null);
 
             while (mCount.moveToNext()) {
@@ -1128,13 +1235,91 @@ public class SMDataSource {
 
     //******************** SMARTMENU KOT RELATED STUFF'S METHODS ***********************************//
 
+    public void addKOTHeader(long tablesId, long kotNumber, long invoiceNumber, long terminalId, String coversDetails) {
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_KOT_TABLE_ID, tablesId);
+            values.put(KEY_KOT_NUMBER, kotNumber);
+            values.put(KEY_INVOICE_NUMBER, invoiceNumber);
+            values.put(KEY_KOT_TERMINAL_ID, terminalId);
+            values.put(KEY_COVERS_DETAILS, coversDetails);
+
+            // Inserting Row
+            db.insert(TABLE_KOT_HEADER, null, values);
+
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public List<KOTHeader> getKOTHeader() {
+        List<KOTHeader> mKotHeadersList = null;
+        KOTHeader kotHeader;
+        try {
+            Cursor cursor = db.rawQuery("select * from " + TABLE_KOT_HEADER, null);
+            mKotHeadersList = new ArrayList<KOTHeader>();
+            while (cursor.moveToNext()) {
+                kotHeader = new KOTHeader();
+                kotHeader.setTablesId(cursor.getLong(1));
+                kotHeader.setKotNumber(cursor.getLong(2));
+                kotHeader.setInvoiceNumber(cursor.getLong(3));
+                kotHeader.setTerminalId(cursor.getLong(4));
+                kotHeader.setCoversDetails(cursor.getString(5));
+                mKotHeadersList.add(kotHeader);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mKotHeadersList;
+    }
+
+    public ArrayList<Long> getExistingCoverIDsFromHeader(long tableId) {
+        ArrayList<Long> ids = new ArrayList<>();
+        try {
+            /*Cursor cursor = db.query(true, TABLE_KOT_HEADER, new String[]{KEY_KOT_TABLE_ID}, KEY_KOT_TABLE_ID + " LIKE ?",
+                    new String[]{"%" + tableId + "%"}, null, null, null, null);*/
+            String selectQuery = "select * from " + TABLE_KOT_HEADER + " where " + KEY_COVERS_DETAILS + " like '%" + tableId + "%' limit 1";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(5);
+                for (String s : id.split(",")) {
+                    ids.add(Long.parseLong(s));
+                }
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
+    public List<String> getAllCoverHeaders() {
+        List<String> ids = new ArrayList<>();
+        try {
+            String selectQuery = "select * from " + TABLE_KOT_HEADER + " group by covers_details";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            while (cursor.moveToNext()) {
+                ids.add(cursor.getString(5));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
     /**
      * @param tableId
      * @param product
      * @param qty
      * @param notes
      */
-    public void addKOTLineItems(long kotLineId, long tableId, long kotNumber, Product product, int qty, String notes, String isPrinted, long rowId, String isExtraProduct, String isDeleted) {
+    public void addKOTLineItems(long kotLineId, long tableId, long kotNumber, Product product, int qty, String notes, String isPrinted, long rowId, String isExtraProduct, String isDeleted, long coverId) {
 
         // It's a good idea to wrap our insert in a transaction. This helps with performance and ensures
         // consistency of the database.
@@ -1194,6 +1379,7 @@ public class SMDataSource {
             values.put(KEY_KOT_REF_LINE_ID, rowId);
             values.put(KEY_KOT_EXTRA_PRODUCT, isExtraProduct);
             values.put(KEY_IS_DELETED, isDeleted);
+            values.put(KEY_M_TABLES_ID, coverId);
 
             // Inserting Row
             db.insert(TABLE_KOT_LINES, null, values);
@@ -1264,6 +1450,57 @@ public class SMDataSource {
                 kotLineItems.setRefRowId(cursor.getLong(18));
                 kotLineItems.setIsExtraProduct(cursor.getString(19));
                 kotLineItems.setIsDeleted(cursor.getString(20));
+                kotLineItems.setCoverId(cursor.getLong(21));
+
+                kotLineItemList.add(kotLineItems);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return kotLineItemList;
+    }
+
+    public List<KOTLineItems> getKOTLineItemsFromCover(ArrayList<Long> tableId) {
+
+        List<KOTLineItems> kotLineItemList = new ArrayList<KOTLineItems>();
+
+        KOTLineItems kotLineItems = null;
+
+        try {
+            Cursor cursor = db.rawQuery("select * from kotLineItems where m_tables_id in (" + TextUtils.join(",", tableId) + ") and isExtraProduct='N' and isDeleted='N' ", null);
+
+            while (cursor.moveToNext()) {
+                kotLineItems = new KOTLineItems();
+                Product product = new Product();
+
+                kotLineItems.setRowId(cursor.getLong(0));
+                kotLineItems.setKotLineId(cursor.getLong(1));
+                kotLineItems.setTableId(cursor.getLong(2));
+                kotLineItems.setKotNumber(cursor.getLong(3));
+
+                product.setCategoryId(cursor.getLong(4));
+                product.setProdId(cursor.getLong(5));
+                product.setProdName(cursor.getString(6));
+                product.setProdArabicName(cursor.getString(7));
+                product.setProdValue(cursor.getString(8));
+                product.setUomId(cursor.getLong(9));
+                product.setUomValue(cursor.getString(10));
+                product.setSalePrice(cursor.getDouble(11));
+                product.setCostPrice(cursor.getDouble(12));
+                product.setTerminalId(cursor.getLong(13));
+
+                kotLineItems.setProduct(product);
+                kotLineItems.setQty(cursor.getInt(14));
+                kotLineItems.setTotalPrice(cursor.getDouble(15));
+                kotLineItems.setNotes(cursor.getString(16));
+                kotLineItems.setPrinted(cursor.getString(17));
+                kotLineItems.setRefRowId(cursor.getLong(18));
+                kotLineItems.setIsExtraProduct(cursor.getString(19));
+                kotLineItems.setIsDeleted(cursor.getString(20));
+                kotLineItems.setCoverId(cursor.getLong(21));
 
                 kotLineItemList.add(kotLineItems);
             }
@@ -1307,6 +1544,8 @@ public class SMDataSource {
                 product.setQty(cursor.getInt(14));
                 product.setTotalPrice(cursor.getDouble(15));
                 product.setDescription(cursor.getString(16));
+                product.setCoverId(cursor.getLong(21));
+
 
                 itemList.add(product);
             }
@@ -1346,7 +1585,7 @@ public class SMDataSource {
                 product.setQty(cursor.getInt(14));
                 product.setTotalPrice(cursor.getDouble(15));
                 product.setDescription(cursor.getString(16));
-
+                product.setCoverId(cursor.getLong(21));
                 itemList.add(product);
             }
             cursor.close();
@@ -1367,6 +1606,27 @@ public class SMDataSource {
         try {
             Cursor cursor = db.rawQuery("select sum(qty) from kotLineItems where kotTableId = '" + tableId + "' and isExtraProduct='N' ", null);
 
+            while (cursor.moveToNext()) {
+                totalQty = cursor.getInt(0);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return totalQty;
+    }
+
+    /**
+     * @param tableId
+     * @return
+     */
+    public int sumOfCartItemsFromCover(ArrayList<Long> tableId) {
+        int totalQty = 0;
+        try {
+            Cursor cursor = db.rawQuery("select sum(qty) from kotLineItems where m_tables_id in (" + TextUtils.join(",", tableId) + ") and isExtraProduct='N' ", null);
+            //select * from kotLineItems where m_tables_id in (" + TextUtils.join(",", tableId) + ") and isExtraProduct='N' and isDeleted='N'
             while (cursor.moveToNext()) {
                 totalQty = cursor.getInt(0);
             }
@@ -1519,6 +1779,15 @@ public class SMDataSource {
             e.printStackTrace();
         } finally {
             db.endTransaction();
+        }
+    }
+
+    public void deleteKOTHeader() {
+        try {
+            db.execSQL("delete from kotHeader");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
         }
     }
 }

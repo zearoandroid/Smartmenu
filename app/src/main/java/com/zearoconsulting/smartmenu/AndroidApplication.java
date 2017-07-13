@@ -19,8 +19,10 @@ import com.zearoconsulting.smartmenu.data.DBHelper;
 import com.zearoconsulting.smartmenu.data.SMDataSource;
 
 import io.fabric.sdk.android.Fabric;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -40,6 +42,8 @@ public class AndroidApplication extends Application {
     private RequestQueue mRequestQueue;
     public static final String TAG = AndroidApplication.class.getSimpleName();
 
+    private ArrayList<Long> selectedCoverList = new ArrayList<>();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,37 +60,37 @@ public class AndroidApplication extends Application {
 
     }
 
-    public static AndroidApplication getInstance(){
+    public static AndroidApplication getInstance() {
         if (sInstance == null) {
             sInstance = new AndroidApplication();
         }
         return sInstance;
     }
 
-    public static Context getAppContext(){
+    public static Context getAppContext() {
         return sInstance.getApplicationContext();
     }
 
-    public AppDataManager getAppManager(){
+    public AppDataManager getAppManager() {
 
-        if(mManager == null){
+        if (mManager == null) {
             mManager = new AppDataManager(getApplicationContext());
         }
 
         return mManager;
     }
 
-    public DBHelper getDBHelper(){
+    public DBHelper getDBHelper() {
 
-        if(mDBHelper == null){
+        if (mDBHelper == null) {
             mDBHelper = new DBHelper(getAppContext());
         }
 
         return mDBHelper;
     }
 
-    public SMDataSource getSMDataSource(){
-        if(mSMDataSource == null){
+    public SMDataSource getSMDataSource() {
+        if (mSMDataSource == null) {
             mSMDataSource = new SMDataSource(getAppContext());
             mSMDataSource.open();
         }
@@ -106,23 +110,23 @@ public class AndroidApplication extends Application {
         activityVisible = false;
     }
 
-    public static Typeface getGothamRoundedLight(){
-        return Typeface.createFromAsset( sInstance.getApplicationContext().getAssets(),
+    public static Typeface getGothamRoundedLight() {
+        return Typeface.createFromAsset(sInstance.getApplicationContext().getAssets(),
                 "fonts/GothamRounded-Light.otf");
     }
 
-    public static Typeface getGothamRoundedMedium(){
-        return Typeface.createFromAsset( sInstance.getApplicationContext().getAssets(),
+    public static Typeface getGothamRoundedMedium() {
+        return Typeface.createFromAsset(sInstance.getApplicationContext().getAssets(),
                 "fonts/GothamRounded-Medium.otf");
     }
 
-    public static Typeface getGothamRoundedBold(){
-        return Typeface.createFromAsset( sInstance.getApplicationContext().getAssets(),
+    public static Typeface getGothamRoundedBold() {
+        return Typeface.createFromAsset(sInstance.getApplicationContext().getAssets(),
                 "fonts/GothamRounded-Bold.otf");
     }
 
-    public static Typeface getGothamRoundedBook(){
-        return Typeface.createFromAsset( sInstance.getApplicationContext().getAssets(),
+    public static Typeface getGothamRoundedBook() {
+        return Typeface.createFromAsset(sInstance.getApplicationContext().getAssets(),
                 "fonts/GothamRounded-Book.otf");
     }
 
@@ -130,7 +134,7 @@ public class AndroidApplication extends Application {
         com.zearoconsulting.smartmenu.domain.receivers.ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 
-    public void printHashKey(){
+    public void printHashKey() {
         // Add code to print out the key hash
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -148,11 +152,11 @@ public class AndroidApplication extends Application {
         }
     }
 
-    public static void setLanguage(String language){
+    public static void setLanguage(String language) {
         mLanguage = language;
     }
 
-    public static String getLanguage(){
+    public static String getLanguage() {
         return mLanguage;
     }
 
@@ -179,4 +183,27 @@ public class AndroidApplication extends Application {
             mRequestQueue.cancelAll(tag);
         }
     }
+
+    public ArrayList<Long> getSelectedCoverList() {
+        return selectedCoverList;
+    }
+
+    public void setSelectedCoverList(Long selectedCover, boolean isRemove) {
+        if (this.selectedCoverList.contains(selectedCover)) {
+            if (isRemove) {
+                this.selectedCoverList.remove(selectedCover);
+            }
+        } else {
+            this.selectedCoverList.add(selectedCover);
+        }
+    }
+
+    public void setAllCoverList(ArrayList<Long> Cover) {
+        selectedCoverList = Cover;
+    }
+
+    public void clearCoverList() {
+        selectedCoverList.clear();
+    }
+
 }

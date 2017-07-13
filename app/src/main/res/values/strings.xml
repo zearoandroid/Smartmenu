@@ -13,6 +13,7 @@
     <string name="notes">Notes</string>
     <string name="addOn">Add On</string>
     <string name="choiceOf">Your Choice of</string>
+    <string name="selectCover">Select Cover</string>
     <string name="name">Name</string>
     <string name="close">Close</string>
     <string name="submit">Submit</string>
@@ -32,6 +33,7 @@
     <string name="please_enter_your_password">Please Enter Your Password</string>
     <string name="please_enter_your_username">Please Enter Your Username</string>
     <string name="enter_covers">Please enter covers</string>
+    <string name="select_covers">Please select covers</string>
     <string name="please_add_note">Please add a note.</string>
 
     <string name="btnConnect">Test connection</string>
@@ -121,5 +123,6 @@
         W : www.zearoconsulting.com
     </string>
     <string name="title_activity_dm__selected_product">DM_SelectedProduct</string>
+    <string name="select_all_covers">Select All Covers</string>
 
 </resources>

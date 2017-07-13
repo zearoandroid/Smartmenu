@@ -44,6 +44,7 @@ import com.zearoconsulting.smartmenu.utils.NetworkUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -55,6 +56,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class CartViewFragment extends AbstractDialogFragment {
 
     TextView mTableNameView;
+    TextView mCoverNameView;
     TextView mTotalPriceView;
     FancyButton mBtnSupmit;
     FancyButton mBtnCancel;
@@ -171,32 +173,40 @@ public class CartViewFragment extends AbstractDialogFragment {
         });
 
         this.mTableNameView = ((TextView) paramView.findViewById(R.id.title));
+        this.mCoverNameView = ((TextView) paramView.findViewById(R.id.selected_covers));
         this.mTotalPriceView = ((TextView) paramView.findViewById(R.id.total));
         this.mBtnSupmit = ((FancyButton) paramView.findViewById(R.id.submit));
         this.mBtnCancel = ((FancyButton) paramView.findViewById(R.id.cancel));
         this.cartListView = ((RecyclerView) paramView.findViewById(R.id.cart_table));
 
         this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
-        mTxtUserName.setText("Hello "+mAppManager.getUserName());
+        mTxtUserName.setText("Hello " + mAppManager.getUserName());
 
-        AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+        AppConstants.URL = AppConstants.kURLHttp + mAppManager.getServerAddress() + ":" + mAppManager.getServerPort() + AppConstants.kURLServiceName + AppConstants.kURLMethodApi;
 
-        Tables tables = mDBHelper.getTableData(mAppManager.getClientID(),mAppManager.getOrgID(),AppConstants.tableID);
-        if(tables!=null)
-            this.mTableNameView.setText(tables.getTableName()+" ("+String.valueOf(AppConstants.tableID)+") ");
+        Tables tables = mDBHelper.getTableData(mAppManager.getClientID(), mAppManager.getOrgID(), AppConstants.tableID);
+        if (tables != null)
+            this.mTableNameView.setText(tables.getTableName() + " (" + String.valueOf(AppConstants.tableID) + ") ");
 
-        mKOTLineItemList = mDBHelper.getKOTLineItems(AppConstants.tableID);
+        ArrayList<String> coverNames = new ArrayList<>();
+        for (Tables ts : mDBHelper.getSelectedCovers(mAppManager.getClientID(), mAppManager.getOrgID(), AppConstants.tableID, AndroidApplication.getInstance().getSelectedCoverList())) {
+            coverNames.add(ts.getTableName());
+        }
+        mCoverNameView.setText(android.text.TextUtils.join(",", coverNames));
 
-        for(int i=0; i<mKOTLineItemList.size(); i++){
+        //mKOTLineItemList = mDBHelper.getKOTLineItems(AppConstants.tableID);
+        mKOTLineItemList = mDBHelper.getKOTLineItemsFromCover(AndroidApplication.getInstance().getSelectedCoverList());
+
+        for (int i = 0; i < mKOTLineItemList.size(); i++) {
             List<Product> extraLineItems = mDBHelper.getKOTExtraLineItems(AppConstants.tableID, mKOTLineItemList.get(i).getKotLineId());
 
             double price = 0;
 
-            for(int j=0; j<extraLineItems.size(); j++){
+            for (int j = 0; j < extraLineItems.size(); j++) {
                 price = price + extraLineItems.get(j).getTotalPrice();
             }
 
-            mKOTLineItemList.get(i).setTotalPrice(mKOTLineItemList.get(i).getTotalPrice()+price);
+            mKOTLineItemList.get(i).setTotalPrice(mKOTLineItemList.get(i).getTotalPrice() + price);
         }
 
         Organization organization = mDBHelper.getOrganizationDetail(mAppManager.getOrgID());
@@ -268,7 +278,7 @@ public class CartViewFragment extends AbstractDialogFragment {
                             public void run() {
                                 //post data to server
                                 int mAppMode = mAppManager.getAppMode();
-                                if(mAppMode == 0) {
+                                if (mAppMode == 0) {
                                     AppConstants.isPasswordValidated = true;
                                 }
                                 postKOTData();
@@ -285,7 +295,7 @@ public class CartViewFragment extends AbstractDialogFragment {
     private void updateTotal() {
         try {
             totalPrice = mDBHelper.sumOfCartItemsTotal(AppConstants.tableID);
-            if(mShowPrice.equalsIgnoreCase("Y")) {
+            if (mShowPrice.equalsIgnoreCase("Y")) {
                 this.mTotalPriceView.setText("Total: " + AppConstants.currencyCode + " " + Common.valueFormatter(totalPrice));
             }
         } catch (Exception e) {
@@ -295,25 +305,28 @@ public class CartViewFragment extends AbstractDialogFragment {
 
     private void postKOTData() {
 
-        if(!AppConstants.isPasswordValidated){
+        if (!AppConstants.isPasswordValidated) {
             FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
             SecurityCodeConfirmationFragment.newInstance(getActivity(), "ORDER").show(localFragmentManager, "ORDER");
-        }else{
+        } else {
             if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
                 try {
 
                     mProDlg.setMessage("Posting data...");
                     mProDlg.show();
 
+                    String cSelectedCovers = android.text.TextUtils.join(",", AndroidApplication.getInstance().getSelectedCoverList());
+                    Log.i("Selected IDs", cSelectedCovers);
                     JSONObject mJsonObj = mParser.getParams(AppConstants.POST_KOT_DATA);
                     mJsonObj.put("tableId", AppConstants.tableID);
                     mJsonObj.put("coversCount", AppConstants.noOfCovers);
+                    mJsonObj.put("coversDetails", cSelectedCovers);
                     mJsonObj.put("kotType", "SM");
                     mJsonObj.put("tokens", mParser.getKOTOrderItems());
 
                     JSONArray tokenArray = mParser.getKOTOrderItems();
 
-                    if(tokenArray.length()!=0){
+                    if (tokenArray.length() != 0) {
                         Log.i("KOTJson", mJsonObj.toString());
 
                         NetworkDataRequestThread thread = new NetworkDataRequestThread(AppConstants.URL, "", mHandler, mJsonObj.toString(), AppConstants.POST_KOT_DATA);
@@ -341,7 +354,7 @@ public class CartViewFragment extends AbstractDialogFragment {
                         // Adding request to request queue
                         AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);*/
 
-                    }else {
+                    } else {
                         AppConstants.tableID = 0;
                         gotoMainPage();
                     }
@@ -360,7 +373,7 @@ public class CartViewFragment extends AbstractDialogFragment {
         public void onCartUpdated();
     }
 
-    private void gotoMainPage(){
+    private void gotoMainPage() {
         mProDlg.dismiss();
         //update the cart count number
         ((OnCartUpdatedListener) getActivity()).onCartUpdated();
@@ -374,13 +387,13 @@ public class CartViewFragment extends AbstractDialogFragment {
         startActivity(i);
     }
 
-    public void showAppInstallDialog(){
+    public void showAppInstallDialog() {
         try {
             //show denomination screen
             FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
             AppUpdateFragment appUpdateFragment = new AppUpdateFragment();
             appUpdateFragment.show(localFragmentManager, "AppUpdateFragment");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -60,7 +60,7 @@ import static com.zearoconsulting.smartmenu.utils.AppConstants.isTableVisible;
  * Created by saravanan on 11-11-2016.
  */
 
-public class TableSelectionViewFragment extends AbstractDialogFragment{
+public class TableSelectionViewFragment extends AbstractDialogFragment {
 
     RecyclerView tableListView;
     List<Tables> mKOTTableList;
@@ -71,6 +71,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
     Runnable runnable;
     private TextView mTxtTitle;
     private TextView mTxtUserName;
+    public static String mSelectedTable;
 
     final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -89,16 +90,16 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                     mProDlg.dismiss();
                     break;
                 case AppConstants.GET_TABLE_KOT_DETAILS:
-                    mParser.parseTableKOTDataResponse(jsonStr,mHandler);
+                    mParser.parseTableKOTDataResponse(jsonStr, mHandler);
                     break;
                 case AppConstants.TABLE_KOT_DETAILS_RECEIVED:
                     mProDlg.dismiss();
                     List<KOTLineItems> mKotLienItemList = mDBHelper.getKOTLineItems(AppConstants.tableID);
-                    if(mKotLienItemList.size() == 0){
-                        showCoverEntryDialog();
-                    }else{
+                    //if(mKotLienItemList.size() == 0){
+                    showCoverEntryDialog(mSelectedTable);
+                   /* }else{
                         dismiss();
-                    }
+                    }*/
                     break;
                 case AppConstants.SERVER_ERROR:
                     mProDlg.dismiss();
@@ -119,17 +120,21 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         @Override
         public void OnTableSelectedListener(Tables tableEntity) {
             try {
-                Tables table = mDBHelper.getTableData(mAppManager.getClientID(),mAppManager.getOrgID(),tableEntity.getTableId());
+                Tables table = mDBHelper.getTableData(mAppManager.getClientID(), mAppManager.getOrgID(), tableEntity.getTableId());
                 AppConstants.tableID = tableEntity.getTableId();
-                if(table.getOrderAvailable().equalsIgnoreCase("Y")){
+                mSelectedTable = table.getTableName();
+
+                if (table.getOrderAvailable().equalsIgnoreCase("Y")) {
+                    mDBHelper.deleteKOTHeader();
                     mDBHelper.deleteKOTLineItems(AppConstants.tableID);
                     List<KOTLineItems> mKotLienItemList = mDBHelper.getKOTLineItems(AppConstants.tableID);
-                    if(mKotLienItemList.size() == 0){
+                    if (mKotLienItemList.size() == 0) {
                         getTableKOT();
                     }
-                }else{
+                } else {
+                    mDBHelper.deleteKOTHeader();
                     mDBHelper.deleteKOTLineItems(AppConstants.tableID);
-                    showCoverEntryDialog();
+                    showCoverEntryDialog(mSelectedTable);
                 }
             } catch (ClassCastException e) {
                 e.printStackTrace();
@@ -159,7 +164,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         try {
             isTableVisible = true;
             updateHandler.postDelayed(runnable, 5000);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onResume();
@@ -200,15 +205,15 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         mProDlg.setCancelable(false);
 
         this.mTxtTitle = (TextView) paramView.findViewById(R.id.title);
-        this.mBtnCancel = (FancyButton)paramView.findViewById(R.id.backButton);
+        this.mBtnCancel = (FancyButton) paramView.findViewById(R.id.backButton);
         this.tableListView = ((RecyclerView) paramView.findViewById(R.id.table_selection));
         this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
-        mTxtUserName.setText("Hello "+mAppManager.getUserName());
+        mTxtUserName.setText("Hello " + mAppManager.getUserName());
 
-        mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(),mAppManager.getOrgID());
-        mTableIdList = mDBHelper.getTableIds(mAppManager.getClientID(),mAppManager.getOrgID());
+        mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(), mAppManager.getOrgID());
+        mTableIdList = mDBHelper.getTableIds(mAppManager.getClientID(), mAppManager.getOrgID());
 
-        AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+        AppConstants.URL = AppConstants.kURLHttp + mAppManager.getServerAddress() + ":" + mAppManager.getServerPort() + AppConstants.kURLServiceName + AppConstants.kURLMethodApi;
 
         mTableAdapter = new DMTableAdapter(mKOTTableList, mTableIdList);
         tableListView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -219,9 +224,9 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
 
 
         //if(isTableVisible) {
-            mDBHelper.deleteKOTLineItems(0);
-            mDBHelper.updateTableStatusAvailable(0);
-            updateTableViews();
+        mDBHelper.deleteKOTLineItems(0);
+        mDBHelper.updateTableStatusAvailable(0);
+        updateTableViews();
         //}
 
         //set the table select listener
@@ -234,12 +239,12 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
             }
         });
 
-        runnable = new Runnable(){
+        runnable = new Runnable() {
 
             public void run() {
                 //updateTableViews(); // some action(s)
                 //if(!AppConstants.isKotParsing) {
-                    getTableStatus1();
+                getTableStatus1();
                 //}
                 updateHandler.postDelayed(this, 5000);
             }
@@ -249,7 +254,7 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         //updateHandler.postDelayed(runnable, 5000);
     }
 
-    private void getTableStatus(){
+    private void getTableStatus() {
         if (NetworkUtil.isOnline()) {
             try {
 
@@ -271,14 +276,14 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         }
     }
 
-    private void getTableKOT(){
+    private void getTableKOT() {
         if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
             try {
 
                 mProDlg.setMessage("Getting tables details...");
                 mProDlg.show();
 
-                AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+                AppConstants.URL = AppConstants.kURLHttp + mAppManager.getServerAddress() + ":" + mAppManager.getServerPort() + AppConstants.kURLServiceName + AppConstants.kURLMethodApi;
                 JSONObject mJsonObj = mParser.getParams(AppConstants.GET_TABLE_KOT_DETAILS);
                 mJsonObj.put("tableId", AppConstants.tableID);
                 Log.i("KOTJson", mJsonObj.toString());
@@ -289,13 +294,13 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                 AndroidApplication.getInstance().cancelPendingRequests(this);
 
                 JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
-                        new Response.Listener<JSONObject>(){
+                        new Response.Listener<JSONObject>() {
 
                             @Override
                             public void onResponse(JSONObject response) {
-                                mParser.parseTableKOTDataResponse(response.toString(),mHandler);
+                                mParser.parseTableKOTDataResponse(response.toString(), mHandler);
                             }
-                        }, new Response.ErrorListener(){
+                        }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -315,36 +320,36 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         }
     }
 
-    public void updateTableViews(){
+    public void updateTableViews() {
         mTxtTitle.setText("Select Table");
         List<Long> mTableIdLists = mDBHelper.getTableIdsLocalAvailable();
-        for(int i=0;i<mTableIdLists.size(); i++){
+        for (int i = 0; i < mTableIdLists.size(); i++) {
             mDBHelper.updateTableStatusAvailable(mTableIdLists.get(i));
         }
-        mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(),mAppManager.getOrgID());
+        mKOTTableList = mDBHelper.getTables(mAppManager.getClientID(), mAppManager.getOrgID());
         mTableAdapter.updateTables(mKOTTableList);
     }
 
-    private void showCoverEntryDialog(){
+    private void showCoverEntryDialog(String tableName) {
         FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
         CoverFragment coverFragment = new CoverFragment();
         coverFragment.show(localFragmentManager, "CoverFragment");
         dismiss();
     }
 
-    private void getTableStatus1(){
+    private void getTableStatus1() {
         if (!NetworkUtil.getConnectivityStatusString().equals(AppConstants.NETWORK_FAILURE)) {
             try {
 
                 AppLog.e("Internet Connection", "Good! Connected to Internet");
                 mTxtTitle.setText("Select Table (Refreshing...)");
 
-                AppConstants.URL = AppConstants.kURLHttp+mAppManager.getServerAddress()+":"+mAppManager.getServerPort()+AppConstants.kURLServiceName+ AppConstants.kURLMethodApi;
+                AppConstants.URL = AppConstants.kURLHttp + mAppManager.getServerAddress() + ":" + mAppManager.getServerPort() + AppConstants.kURLServiceName + AppConstants.kURLMethodApi;
                 JSONObject mJsonObj = mParser.getParams(AppConstants.GET_TABLE_STATUS);
                 Log.i("KOTJson", mJsonObj.toString());
 
                 JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, AppConstants.URL, mJsonObj,
-                        new Response.Listener<JSONObject>(){
+                        new Response.Listener<JSONObject>() {
 
                             @Override
                             public void onResponse(JSONObject response) {
@@ -352,14 +357,14 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
                                 //Update adapter colors
                                 updateTableViews();
                             }
-                        }, new Response.ErrorListener(){
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    //Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-                                    //mProDlg.dismiss();
-                                }
-                            }
-                        );
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                        //mProDlg.dismiss();
+                    }
+                }
+                );
 
                 // Adding request to request queue
                 AndroidApplication.getInstance().addToRequestQueue(jsonObjReq);
@@ -399,13 +404,13 @@ public class TableSelectionViewFragment extends AbstractDialogFragment{
         alertDialog.show();
     }
 
-    public void showAppInstallDialog(){
+    public void showAppInstallDialog() {
         try {
             //show denomination screen
             FragmentManager localFragmentManager = getActivity().getSupportFragmentManager();
             AppUpdateFragment appUpdateFragment = new AppUpdateFragment();
             appUpdateFragment.show(localFragmentManager, "AppUpdateFragment");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

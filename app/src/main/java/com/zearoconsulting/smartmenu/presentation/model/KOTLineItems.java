@@ -20,6 +20,7 @@ public class KOTLineItems implements Serializable {
     private String isExtraProduct;
     private long kotLineId;
     private String isDeleted;
+    private long coverId;
 
     public long getKotLineId() {
         return kotLineId;
@@ -115,6 +116,14 @@ public class KOTLineItems implements Serializable {
 
     public void setIsDeleted(String deleted) {
         this.isDeleted = deleted;
+    }
+
+    public long getCoverId() {
+        return coverId;
+    }
+
+    public void setCoverId(long coverId) {
+        this.coverId = coverId;
     }
 
 }
