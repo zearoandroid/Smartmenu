@@ -342,9 +342,9 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-
+                                navigateToCategories();
                                 //mDBHelper.updateTempTerminal();
-                                if (!mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
+                                /*if (!mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
                                     Intent intent = new Intent(DM_Menu.this, DM_Categories.class);
                                     startActivity(intent);
                                 } else if (mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
@@ -356,7 +356,7 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener {
                                         Intent intent = new Intent(DM_Menu.this, DM_Categories.class);
                                         startActivity(intent);
                                     }
-                                }
+                                }*/
 
                             }
                         }, 200);
@@ -365,6 +365,22 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener {
                 return true;
             }
         });
+    }
+
+    public void navigateToCategories() {
+        if (!mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
+            Intent intent = new Intent(DM_Menu.this, DM_Categories.class);
+            startActivity(intent);
+        } else if (mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
+            if (AppConstants.tableID == 0) {
+                Toast.makeText(DM_Menu.this, "Select Table", Toast.LENGTH_LONG).show();
+            } else if (AndroidApplication.getInstance().getSelectedCoverList().size() == 0) {
+                Toast.makeText(DM_Menu.this, "Select Covers", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(DM_Menu.this, DM_Categories.class);
+                startActivity(intent);
+            }
+        }
     }
 
     @Override

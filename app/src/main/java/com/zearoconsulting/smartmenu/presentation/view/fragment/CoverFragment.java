@@ -25,6 +25,7 @@ import com.zearoconsulting.smartmenu.R;
 import com.zearoconsulting.smartmenu.presentation.model.KOTLineItems;
 import com.zearoconsulting.smartmenu.presentation.model.Tables;
 import com.zearoconsulting.smartmenu.presentation.presenter.CoverSelectListener;
+import com.zearoconsulting.smartmenu.presentation.view.activity.DM_Menu;
 import com.zearoconsulting.smartmenu.presentation.view.adapter.DMCoverAdapter;
 import com.zearoconsulting.smartmenu.presentation.view.component.ReboundListener;
 import com.zearoconsulting.smartmenu.utils.AppConstants;
@@ -61,7 +62,9 @@ public class CoverFragment extends AbstractDialogFragment {
         @Override
         public void CoverSelected() {
             dismissAllowingStateLoss();
+            ((DM_Menu) CoverFragment.this.getActivity()).navigateToCategories();
         }
+
     };
 
     public Dialog onCreateDialog(Bundle paramBundle) {
@@ -126,7 +129,7 @@ public class CoverFragment extends AbstractDialogFragment {
         this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
         this.selectedTableName = (TextView) paramView.findViewById(R.id.selected_table_name);
         mTxtUserName.setText(("Hello " + mAppManager.getUserName()));
-        selectedTableName.setText(("Table Name:  "+TableSelectionViewFragment.mSelectedTable));
+        selectedTableName.setText(("Table Name:  " + TableSelectionViewFragment.mSelectedTable));
 
         mKOTCoverList = mDBHelper.getCovers(mAppManager.getClientID(), mAppManager.getOrgID(), AppConstants.tableID);
         mKOTCoverIds = mDBHelper.getCoverIDs(mAppManager.getClientID(), mAppManager.getOrgID(), AppConstants.tableID);
@@ -151,14 +154,12 @@ public class CoverFragment extends AbstractDialogFragment {
             @Override
             public void onClick(View view) {
                 ArrayList<Long> array = AndroidApplication.getInstance().getSelectedCoverList();
-                for (Long l : array) {
-                    Log.i("Selected ID: ", "" + l);
-                }
-
+                Log.i("Selected ID: ", android.text.TextUtils.join(",", array));
                 if (array.size() > 0) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     dismiss();
+                    ((DM_Menu) CoverFragment.this.getActivity()).navigateToCategories();
                 } else {
                     Toast.makeText(AndroidApplication.getAppContext(), "Please select covers...", Toast.LENGTH_LONG).show();
                 }
