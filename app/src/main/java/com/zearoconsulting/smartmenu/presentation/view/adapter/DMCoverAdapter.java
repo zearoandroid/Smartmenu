@@ -1,6 +1,12 @@
 package com.zearoconsulting.smartmenu.presentation.view.adapter;
 
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,10 +51,17 @@ public class DMCoverAdapter extends RecyclerView.Adapter<DMCoverAdapter.CoverIte
             Color.rgb(116, 119, 215),
             Color.rgb(116, 215, 211)
     };
+    private Drawable[] drawables;
 
     public DMCoverAdapter(List<Tables> kotTableList, List<Long> kotCoverIDs) {
         this.mKOTCoverList = kotTableList;
         this.mKOTCoverIds = kotCoverIDs;
+        drawables = new Drawable[14];
+        for (int i = 0; i < 13; i++) {
+            Drawable drawable = AndroidApplication.getInstance().getResources().getDrawable(R.drawable.round_grey_button);
+            drawable.setColorFilter(colors[i], PorterDuff.Mode.OVERLAY);
+            this.drawables[i] = drawable;
+        }
     }
 
     @Override
@@ -62,11 +75,11 @@ public class DMCoverAdapter extends RecyclerView.Adapter<DMCoverAdapter.CoverIte
         final Tables covers = mKOTCoverList.get(pos);
         try {
             if (covers.getOrderAvailable().equalsIgnoreCase("Y")) {
-                holder.btnTable.setBackgroundColor(redColor);
+                holder.btnTable.setBackgroundResource(R.drawable.round_red_button);
                 holder.btnTable.setTag("Y");
                 holder.buttonColor = redColor;
             } else if (covers.getOrderAvailable().equalsIgnoreCase("N") && !selectAllChecked) {
-                holder.btnTable.setBackgroundColor(grayColor);
+                holder.btnTable.setBackgroundResource(R.drawable.round_grey_button);
                 holder.btnTable.setTag("N");
                 holder.buttonColor = grayColor;
             }
@@ -74,42 +87,41 @@ public class DMCoverAdapter extends RecyclerView.Adapter<DMCoverAdapter.CoverIte
             if (selectAllChecked) {
                 holder.btnTable.setBackgroundResource(R.drawable.round_blue_button);
                 holder.buttonColor = R.drawable.round_blue_button;
-            }/* else if (!selectAllChecked) {
-                holder.btnTable.setBackgroundResource(R.drawable.round_grey_button);
-                holder.buttonColor = R.drawable.round_grey_button;
-            }*/
+            }
 
             if (covers.getOrderGroup() == 1) {
-                holder.btnTable.setBackgroundColor(colors[0]);
+                colorChange(holder.btnTable, drawables[0]);
             } else if (covers.getOrderGroup() == 2) {
-                holder.btnTable.setBackgroundColor(colors[1]);
+                colorChange(holder.btnTable, drawables[1]);
             } else if (covers.getOrderGroup() == 3) {
-                holder.btnTable.setBackgroundColor(colors[2]);
+                colorChange(holder.btnTable, drawables[2]);
             } else if (covers.getOrderGroup() == 4) {
-                holder.btnTable.setBackgroundColor(colors[3]);
+                colorChange(holder.btnTable, drawables[3]);
             } else if (covers.getOrderGroup() == 5) {
-                holder.btnTable.setBackgroundColor(colors[4]);
+                colorChange(holder.btnTable, drawables[4]);
             } else if (covers.getOrderGroup() == 6) {
-                holder.btnTable.setBackgroundColor(colors[5]);
+                colorChange(holder.btnTable, drawables[5]);
             } else if (covers.getOrderGroup() == 7) {
-                holder.btnTable.setBackgroundColor(colors[6]);
+                colorChange(holder.btnTable, drawables[6]);
             } else if (covers.getOrderGroup() == 8) {
-                holder.btnTable.setBackgroundColor(colors[7]);
+                colorChange(holder.btnTable, drawables[7]);
             } else if (covers.getOrderGroup() == 9) {
-                holder.btnTable.setBackgroundColor(colors[8]);
+                colorChange(holder.btnTable, drawables[8]);
             } else if (covers.getOrderGroup() == 10) {
-                holder.btnTable.setBackgroundColor(colors[9]);
-            }/* else if (covers.getOrderGroup() == 11) {
-                holder.btnTable.setBackgroundColor(colors[10]);
-            } else if (covers.getOrderGroup() == 12) {
-                holder.btnTable.setBackgroundColor(colors[11]);
-            } else if (covers.getOrderGroup() == 13) {
-                holder.btnTable.setBackgroundColor(colors[12]);
-            }*/
+                colorChange(holder.btnTable, drawables[9]);
+            }
 
             holder.btnTable.setText(covers.getTableName());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void colorChange(View v, Drawable d) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            v.setBackground(d);
+        } else {
+            v.setBackgroundDrawable(d);
         }
     }
 
@@ -145,6 +157,7 @@ public class DMCoverAdapter extends RecyclerView.Adapter<DMCoverAdapter.CoverIte
             super(view);
             mView = view;
             this.btnTable = (Button) view.findViewById(R.id.btnTable);
+            //this.btnTable.setForeground(AndroidApplication.getAppContext().getResources().getDrawable(R.drawable.round_red_button));
             this.btnTable.setOnClickListener(this);
         }
 
@@ -152,10 +165,12 @@ public class DMCoverAdapter extends RecyclerView.Adapter<DMCoverAdapter.CoverIte
         public void onClick(View view) {
             if (btnTable.getTag().toString().equals("N")) {
                 if (buttonColor == grayColor) {
-                    btnTable.setBackgroundColor(blueColor);
+                    //btnTable.setBackgroundColor(blueColor);
+                    btnTable.setBackgroundResource(R.drawable.round_blue_button);
                     buttonColor = blueColor;
                 } else if (buttonColor == blueColor) {
                     btnTable.setBackgroundColor(grayColor);
+                    btnTable.setBackgroundResource(R.drawable.round_grey_button);
                     buttonColor = grayColor;
                 }
                 selectedItem(getAdapterPosition());
