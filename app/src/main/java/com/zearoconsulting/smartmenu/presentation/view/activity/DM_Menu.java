@@ -56,7 +56,7 @@ import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
+public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener {
 
     private FancyButton infoButton;
     private FancyButton feedbackButton;
@@ -116,23 +116,23 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
         //BitmapDrawable bd = new BitmapDrawable(res, bitmaps);
         //mLayoutMenu.setBackgroundDrawable(bd);
 
-        if(organization==null){
+        if (organization == null) {
             Toast.makeText(DM_Menu.this, "Data not available. Please give manual sync.", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             Glide.with(DM_Menu.this)
                     .load(organization.getOrgImage())
                     .into(mLayoutMenu);
         }
 
         boolean isAvail = mDBHelper.checkAllCategory();
-        if(!isAvail){
+        if (!isAvail) {
             Category category = new Category();
             category.setCategoryId(0);
             category.setCategoryName("All (Quick Menu)");
             category.setCategoryValue("All (Quick Menu)");
 
             // Retrieve the image from the res folder
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.no_product);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.no_product);
             String imagePath = FileUtils.storeImage("", 0, bitmap);
             category.setCategoryImage(imagePath);
             category.setShowDigitalMenu("Y");
@@ -251,9 +251,9 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
                             @Override
                             public void run() {
                                 mAppMode = mAppManager.getAppMode();
-                                if(mAppMode == 1)
-                                SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "TABLE").show(localFragmentManager, "TABLE");
-                                else if(mAppMode == 0){
+                                if (mAppMode == 1)
+                                    SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "TABLE").show(localFragmentManager, "TABLE");
+                                else if (mAppMode == 0) {
                                     TableSelectionViewFragment tableSelectionViewFragment = new TableSelectionViewFragment();
                                     tableSelectionViewFragment.show(localFragmentManager, "TableSelectionFragment");
                                 }
@@ -311,9 +311,9 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
                             @Override
                             public void run() {
                                 mAppMode = mAppManager.getAppMode();
-                                if(mAppMode == 1)
-                                SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "LOGOUT").show(localFragmentManager, "LOGOUT");
-                                else if(mAppMode == 0){
+                                if (mAppMode == 1)
+                                    SecurityCodeConfirmationFragment.newInstance(DM_Menu.this, "LOGOUT").show(localFragmentManager, "LOGOUT");
+                                else if (mAppMode == 0) {
                                     logout();
                                 }
                             }
@@ -350,6 +350,8 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
                                 } else if (mAppManager.getRoleName().equalsIgnoreCase("waiter")) {
                                     if (AppConstants.tableID == 0) {
                                         Toast.makeText(DM_Menu.this, "Select Table", Toast.LENGTH_LONG).show();
+                                    } else if (AndroidApplication.getInstance().getSelectedCoverList().size() == 0) {
+                                        Toast.makeText(DM_Menu.this, "Select Covers", Toast.LENGTH_LONG).show();
                                     } else {
                                         Intent intent = new Intent(DM_Menu.this, DM_Categories.class);
                                         startActivity(intent);
@@ -480,7 +482,7 @@ public class DM_Menu extends DMBaseActivity implements OnMenuItemClickListener{
      * Hides the soft keyboard
      */
     public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
+        if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
