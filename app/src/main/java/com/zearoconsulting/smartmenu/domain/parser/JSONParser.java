@@ -866,6 +866,7 @@ public class JSONParser {
         }
     }
 
+    //Updated By Vijay(14-07-2017)
     public void parseTableKOTDataResponse(String jsonStr, Handler mHandler) {
         Log.i("RESPONSE", jsonStr);
         Message msg = new Message();
