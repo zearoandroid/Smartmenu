@@ -60,8 +60,6 @@ public class DMCategoryItemAdapter extends RecyclerView.Adapter<DMCategoryItemAd
 
         Glide.with(mContext)
                 .load(mProductList.get(pos).getProdImage())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into( holder.imageView);
 
     }

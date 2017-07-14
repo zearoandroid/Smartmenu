@@ -62,8 +62,6 @@ public class DMAllProductAdapter extends RecyclerView.Adapter<DMAllProductAdapte
 
         Glide.with(mContext)
                 .load(mProductList.get(pos).getProdImage())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into( holder.imageView);
 
     }

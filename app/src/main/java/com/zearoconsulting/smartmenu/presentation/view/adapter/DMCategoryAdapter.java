@@ -80,8 +80,6 @@ public class DMCategoryAdapter extends RecyclerView.Adapter<DMCategoryAdapter.Ca
 
             Glide.with(mContext)
                     .load(path)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .into( holder.imageView);
 
 

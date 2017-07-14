@@ -120,8 +120,6 @@ public class DMProductAdapter extends PagerAdapter {
 
             Glide.with(mContext)
                     .load(model.getProdMultiPath())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .override(Common.getDeviceWidth(mContext), 512)
                     .fitCenter()
                     .into(holder.itemImage);
