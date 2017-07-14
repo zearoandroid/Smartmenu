@@ -341,6 +341,7 @@ public class JSONParser {
                     jItemObj.put("qty", productList.get(j).getQty());
                     jItemObj.put("total", productList.get(j).getTotalPrice());
                     jItemObj.put("description", productList.get(j).getDescription());
+                    jItemObj.put("tableId", productList.get(j).getCoverId());
 
                     List<Product> extraProductList = mDBHelper.getKOTExtraLineItems(AppConstants.tableID, productList.get(j).getKotLineId());
 
@@ -376,6 +377,7 @@ public class JSONParser {
                 jItemObj.put("qty", extraProductList.get(j).getQty());
                 jItemObj.put("total", extraProductList.get(j).getTotalPrice());
                 jItemObj.put("description", extraProductList.get(j).getDescription());
+                jItemObj.put("tableId", extraProductList.get(j).getCoverId());
 
                 mArrayItems.put(jItemObj);
             }
@@ -777,6 +779,8 @@ public class JSONParser {
                     tables.setTableId(obj.getLong("tablesId"));
                     tables.setTableName(obj.getString("tablesName"));
                     tables.setOrderAvailable("N");
+                    tables.setIsCoversLevel(obj.getString("isCoversLevel"));
+                    tables.setTableGroupId(obj.getLong("tableGroupId"));
 
                     mDBHelper.addTables(tables);
 
@@ -802,8 +806,8 @@ public class JSONParser {
                 b.putInt("Type", AppConstants.TABLES_RECEIVED);
                 b.putString("OUTPUT", "");
             }
-                msg.setData(b);
-                mHandler.sendMessage(msg);
+            msg.setData(b);
+            mHandler.sendMessage(msg);
         }
     }
 
@@ -857,8 +861,8 @@ public class JSONParser {
                 b.putInt("Type", AppConstants.TERMINALS_RECEIVED);
                 b.putString("OUTPUT", "");
             }
-                msg.setData(b);
-                mHandler.sendMessage(msg);
+            msg.setData(b);
+            mHandler.sendMessage(msg);
         }
     }
 
@@ -897,6 +901,9 @@ public class JSONParser {
                     if(tokenObj.has("coversCount"))
                         AppConstants.noOfCovers = tokenObj.getInt("coversCount");
 
+                    //add kot header
+                    //long tablesId, long kotNumber, long invoiceNumber, long terminalId, String coversDetails
+                    mDBHelper.addKOTHeader(AppConstants.tableID, kotNumber, tokenObj.getLong("invoiceNumber"), terminalId, tokenObj.getString("coversDetails"));
                     for (int j = 0; j < jsonProductArray.length(); j++) {
 
                         JSONObject prodObj = (JSONObject) jsonProductArray.get(j);
@@ -908,8 +915,8 @@ public class JSONParser {
                         notes = prodObj.getString("description");
                         mProduct.setTerminalId(terminalId);
 
-                        mDBHelper.addKOTLineItems(prodObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", 0, "N", prodObj.getString("isDeleted"));
-
+                        mDBHelper.addKOTLineItems(prodObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", 0, "N", prodObj.getString("isDeleted"), prodObj.getLong("tableId"));
+                        mDBHelper.updateTableStatusAvailable(prodObj.getLong("tableId"));
                         if(prodObj.has("relatedProductsArray")){
 
                             JSONArray jsonRelatedProductArray = prodObj.getJSONArray("relatedProductsArray");
@@ -923,7 +930,8 @@ public class JSONParser {
                                 notes = relatedProdObj.getString("description");
                                 mProduct.setTerminalId(terminalId);
 
-                                mDBHelper.addKOTLineItems(relatedProdObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", kotRefLineId, "Y", prodObj.getString("isDeleted"));
+                                mDBHelper.addKOTLineItems(relatedProdObj.getLong("KotLineID"), AppConstants.tableID, kotNumber, mProduct, qty, notes, "Y", kotRefLineId, "Y", prodObj.getString("isDeleted"), relatedProdObj.getLong("tableId"));
+                                mDBHelper.updateTableStatusAvailable(relatedProdObj.getLong("tableId"));
                             }
                         }
                     }
@@ -1137,8 +1145,8 @@ public class JSONParser {
 
                         //load image to sdcard and store the path to db
                         if (obj.has("categoryImage")) {
-                            String imagePath = FileUtils.storeImage(obj.getString("categoryImage"), obj.getLong("categoryId"), null);
-                            category.setCategoryImage(imagePath);
+                            //String imagePath = FileUtils.storeImage(obj.getString("categoryImage"), obj.getLong("categoryId"), null);
+                            category.setCategoryImage(obj.getString("categoryImage"));
                         } else {
                             // Retrieve the image from the res folder
                             Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),
@@ -1187,8 +1195,8 @@ public class JSONParser {
                     b.putInt("Type", AppConstants.CATEGORY_RECEIVED);
                     b.putString("OUTPUT", "");
                 }
-                    msg.setData(b);
-                    mHandler.sendMessage(msg);
+                msg.setData(b);
+                mHandler.sendMessage(msg);
             }
         }
     }
@@ -1238,7 +1246,29 @@ public class JSONParser {
 
                         imgPath = "";
 
-                        //load image to sdcard and store the path to db
+                        if(obj.has("productMultiImage")){
+                            JSONArray jsonProdArray = obj.getJSONArray("productMultiImage");
+                            for (int j = 0; j < jsonProdArray.length(); j++) {
+                                JSONObject prodObj = (JSONObject) jsonProdArray.get(0);
+                                if(prodObj.has("productImage")){
+                                    product.setProdImage(prodObj.getString("productImage"));
+                                }else{
+                                    // Retrieve the image from the res folder
+                                    Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),
+                                            R.drawable.no_product);
+                                    String imagePath = FileUtils.storeImage("",obj.getLong("productId"),bitmap);
+                                    product.setProdImage(imagePath);
+                                }
+                            }
+                        }else{
+                            // Retrieve the image from the res folder
+                            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),
+                                    R.drawable.no_product);
+                            String imagePath = FileUtils.storeImage("",obj.getLong("productId"),bitmap);
+                            product.setProdImage(imagePath);
+                        }
+
+                        /*//load image to sdcard and store the path to db
                         if (obj.has("productImage")) {
                             imgPath = FileUtils.storeImage(obj.getString("productImage"), obj.getLong("productId"), null);
                             product.setProdImage(imgPath);
@@ -1248,7 +1278,7 @@ public class JSONParser {
                                     R.drawable.no_product);
                             String imagePath = FileUtils.storeImage("", obj.getLong("productId"), bitmap);
                             product.setProdImage(imagePath);
-                        }
+                        }*/
 
                         if (obj.has("productArabicName")) {
                             product.setProdArabicName(obj.getString("productArabicName"));
@@ -1325,10 +1355,10 @@ public class JSONParser {
                             for (int j = 0; j < jsonImageArray.length(); j++) {
 
                                 JSONObject imgObj = (JSONObject) jsonImageArray.get(j);
-
-                                String imagePath = FileUtils.storeMultiImage(imgObj.getString("productImage"), productId, null, j);
-
-                                mDBHelper.addProductImage(mAppManager.getClientID(), mAppManager.getOrgID(), productId, imagePath, "image");
+                                //String imagePath = FileUtils.storeMultiImage(imgObj.getString("productImage"), productId, null, j);
+                                if(imgObj.has("productImage")){
+                                    mDBHelper.addProductImage(mAppManager.getClientID(), mAppManager.getOrgID(), productId, imgObj.getString("productImage"), "image");
+                                }
 
                             }
                         }
