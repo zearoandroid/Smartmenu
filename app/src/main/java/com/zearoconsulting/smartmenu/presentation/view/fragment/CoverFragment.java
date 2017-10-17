@@ -50,6 +50,7 @@ public class CoverFragment extends AbstractDialogFragment {
     private CheckBox mSelectAllCovers;
     private TextView mTxtUserName;
     private TextView selectedTableName;
+    private TextView pleaseEnterNoOfCovers;
 
     CoverSelectListener onCoverSelectListener = new CoverSelectListener() {
         @Override
@@ -128,6 +129,7 @@ public class CoverFragment extends AbstractDialogFragment {
 
         this.mTxtUserName = (TextView) paramView.findViewById(R.id.txtUserName);
         this.selectedTableName = (TextView) paramView.findViewById(R.id.selected_table_name);
+        this.pleaseEnterNoOfCovers = (TextView) paramView.findViewById(R.id.pleaseEnterNoOfCovers);
         mTxtUserName.setText(("Hello " + mAppManager.getUserName()));
         selectedTableName.setText(("Table Name:  " + TableSelectionViewFragment.mSelectedTable));
 
@@ -206,5 +208,10 @@ public class CoverFragment extends AbstractDialogFragment {
         }
 
         mCoverAdapter.updateCovers();
+        if (mKOTCoverList.size() == 0 || mKOTCoverIds.size() == 0) {
+            pleaseEnterNoOfCovers.setText("No Covers Available. \n Please Contact Admin.");
+            Toast.makeText(AndroidApplication.getAppContext(), "No Covers Available. \n Please Contact Admin.", Toast.LENGTH_LONG).show();
+            mBtnSubmit.setEnabled(false);
+        }
     }
 }
